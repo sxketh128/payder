@@ -257,7 +257,7 @@
             <script>
                 async function fetchAdminStats() {
                     try {
-                        const response = await fetch("http://localhost:8000/admin/stats");
+                        const response = await fetch("https://payder.onrender.com/admin/stats");
                         const data = await response.json();
                         
                         document.getElementById("stat-total-checks").innerText = data.recent_checks.length;
