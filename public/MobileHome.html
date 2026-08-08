@@ -366,7 +366,7 @@
 
                                                                 // Modal logic
                                                                 const qrModal = document.getElementById("qr-modal");
-                                                                let html5QrcodeScanner = null;
+                                                                let html5QrCode = null;
 
                                                                 document.getElementById("btn-check-upi").addEventListener("click", () => {
                                                                         qrModal.classList.remove("hidden");
@@ -375,9 +375,14 @@
 
                                                                 document.getElementById("modal-close").addEventListener("click", () => {
                                                                         qrModal.classList.add("hidden");
-                                                                        if (html5QrcodeScanner) {
-                                                                                html5QrcodeScanner.clear().catch(e => console.error(e));
-                                                                                html5QrcodeScanner = null;
+                                                                        if (html5QrCode) {
+                                                                                try {
+                                                                                        if (html5QrCode.isScanning) {
+                                                                                                html5QrCode.stop().then(() => html5QrCode.clear()).catch(e => console.error(e));
+                                                                                        } else {
+                                                                                                html5QrCode.clear();
+                                                                                        }
+                                                                                } catch (e) { console.error(e); }
                                                                         }
                                                                 });
 
@@ -387,25 +392,31 @@
                                                                         if (id) callAgent("upi", id);
                                                                 });
 
-                                                                document.getElementById("modal-scan-live").addEventListener("click", () => {
+                                                                document.getElementById("modal-scan-live").addEventListener("click", async () => {
                                                                         document.getElementById("qr-reader").classList.remove("hidden");
-                                                                        if (!html5QrcodeScanner) {
-                                                                                html5QrcodeScanner = new Html5QrcodeScanner(
-                                                                                        "qr-reader",
-                                                                                        { fps: 10, qrbox: {width: 250, height: 250} },
-                                                                                        /* verbose= */ false
+                                                                        if (!html5QrCode) {
+                                                                                html5QrCode = new Html5Qrcode("qr-reader");
+                                                                        }
+                                                                        
+                                                                        try {
+                                                                                await html5QrCode.start(
+                                                                                        { facingMode: "environment" },
+                                                                                        { fps: 10, qrbox: { width: 250, height: 250 } },
+                                                                                        (decodedText, decodedResult) => {
+                                                                                                // Stop scanning on success
+                                                                                                html5QrCode.stop().then(() => {
+                                                                                                        html5QrCode.clear();
+                                                                                                        qrModal.classList.add("hidden");
+                                                                                                        // Send the decoded text as a UPI ID
+                                                                                                        callAgent("upi", decodedText);
+                                                                                                }).catch(e => console.error(e));
+                                                                                        },
+                                                                                        (errorMessage) => {
+                                                                                                // parse error, ignore to keep scanning
+                                                                                        }
                                                                                 );
-                                                                                html5QrcodeScanner.render((decodedText, decodedResult) => {
-                                                                                        // Stop scanning on success
-                                                                                        html5QrcodeScanner.clear();
-                                                                                        html5QrcodeScanner = null;
-                                                                                        qrModal.classList.add("hidden");
-                                                                                        
-                                                                                        // Send the decoded text as a UPI ID
-                                                                                        callAgent("upi", decodedText);
-                                                                                }, (error) => {
-                                                                                        // parse error, ignore
-                                                                                });
+                                                                        } catch (err) {
+                                                                                alert("Camera access denied or no back camera found. Please ensure you have granted camera permissions. Error: " + err);
                                                                         }
                                                                 });
 
