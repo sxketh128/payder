@@ -3,6 +3,7 @@
                 <meta content="width=device-width, initial-scale=1.0" name="viewport">
                         <title>Payder - Home</title>
                         <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+                        <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
                         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
                                 <link href="https://fonts.googleapis.com" rel="preconnect">
                                         <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
@@ -292,11 +293,17 @@
 
                                                         <!-- Modal Overlay (Hidden by default) -->
                                                         <div id="qr-modal" class="hidden absolute inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                                                                <div class="bg-white w-full rounded-2xl p-6 shadow-xl flex flex-col gap-4">
+                                                                <div class="bg-white w-full rounded-2xl p-6 shadow-xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
                                                                         <h3 class="font-headline-sm text-lg font-bold text-[#0a1128]">Check UPI ID or QR</h3>
                                                                         <p class="font-body-sm text-gray-500">How would you like to verify the receiver?</p>
+                                                                        
+                                                                        <div id="qr-reader" class="hidden w-full"></div>
+                                                                        
+                                                                        <button id="modal-scan-live" class="w-full bg-[#E8EAF6] text-[#303F9F] font-semibold py-3 rounded-xl flex items-center justify-center gap-2">
+                                                                                <span class="material-symbols-outlined">qr_code_scanner</span> Scan QR for ID
+                                                                        </button>
                                                                         <button id="modal-scan-qr" class="w-full bg-[#E8EAF6] text-[#303F9F] font-semibold py-3 rounded-xl flex items-center justify-center gap-2">
-                                                                                <span class="material-symbols-outlined">qr_code_scanner</span> Scan QR Image
+                                                                                <span class="material-symbols-outlined">image</span> Upload QR for Tamper Check
                                                                         </button>
                                                                         <button id="modal-type-upi" class="w-full bg-[#E8EAF6] text-[#303F9F] font-semibold py-3 rounded-xl flex items-center justify-center gap-2">
                                                                                 <span class="material-symbols-outlined">keyboard</span> Type UPI ID
@@ -340,13 +347,16 @@
                                                                                 
                                                                                 // Show the receipt from the x402 transaction
                                                                                 let receiptText = "";
+                                                                                let reasonText = "";
                                                                                 if (data.receipts && data.receipts.length > 0) {
                                                                                         receiptText = "x402 Cryptographic Receipt:\n\n" + data.receipts.map(r => r.service + ": " + r.receipt).join("\n");
+                                                                                        const firstReason = data.receipts.find(r => r.reason)?.reason;
+                                                                                        if (firstReason) reasonText = firstReason + "\n\n";
                                                                                 } else {
                                                                                         receiptText = "No cryptographic receipt returned.";
                                                                                 }
                                                                                 
-                                                                                document.getElementById("receipt-details").innerText = receiptText;
+                                                                                document.getElementById("receipt-details").innerText = reasonText + receiptText;
                                                                                 document.getElementById("receipt-modal").classList.remove("hidden");
                                                                                 
                                                                         } catch (e) {
@@ -356,17 +366,47 @@
 
                                                                 // Modal logic
                                                                 const qrModal = document.getElementById("qr-modal");
+                                                                let html5QrcodeScanner = null;
+
                                                                 document.getElementById("btn-check-upi").addEventListener("click", () => {
                                                                         qrModal.classList.remove("hidden");
+                                                                        document.getElementById("qr-reader").classList.add("hidden");
                                                                 });
+
                                                                 document.getElementById("modal-close").addEventListener("click", () => {
                                                                         qrModal.classList.add("hidden");
+                                                                        if (html5QrcodeScanner) {
+                                                                                html5QrcodeScanner.clear().catch(e => console.error(e));
+                                                                                html5QrcodeScanner = null;
+                                                                        }
                                                                 });
 
                                                                 document.getElementById("modal-type-upi").addEventListener("click", () => {
                                                                         qrModal.classList.add("hidden");
                                                                         const id = prompt("Enter UPI ID:");
                                                                         if (id) callAgent("upi", id);
+                                                                });
+
+                                                                document.getElementById("modal-scan-live").addEventListener("click", () => {
+                                                                        document.getElementById("qr-reader").classList.remove("hidden");
+                                                                        if (!html5QrcodeScanner) {
+                                                                                html5QrcodeScanner = new Html5QrcodeScanner(
+                                                                                        "qr-reader",
+                                                                                        { fps: 10, qrbox: {width: 250, height: 250} },
+                                                                                        /* verbose= */ false
+                                                                                );
+                                                                                html5QrcodeScanner.render((decodedText, decodedResult) => {
+                                                                                        // Stop scanning on success
+                                                                                        html5QrcodeScanner.clear();
+                                                                                        html5QrcodeScanner = null;
+                                                                                        qrModal.classList.add("hidden");
+                                                                                        
+                                                                                        // Send the decoded text as a UPI ID
+                                                                                        callAgent("upi", decodedText);
+                                                                                }, (error) => {
+                                                                                        // parse error, ignore
+                                                                                });
+                                                                        }
                                                                 });
 
                                                                 document.getElementById("modal-scan-qr").addEventListener("click", () => {

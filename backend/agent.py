@@ -62,7 +62,8 @@ async def agent_check(req: AgentCheckRequest):
         if "error" not in res:
             if res["result"]["status"] == "Flagged":
                 verdict = "Flagged"
-            receipts.append({"service": "check-fraud-id", "receipt": res["receipt"]})
+            reason = res["result"].get("reason", "")
+            receipts.append({"service": "check-fraud-id", "receipt": res["receipt"], "reason": reason})
             
     elif req.type == "qr":
         # Decode base64 to bytes
@@ -80,14 +81,16 @@ async def agent_check(req: AgentCheckRequest):
         if "error" not in res:
             if res["result"]["status"] == "Flagged":
                 verdict = "Flagged"
-            receipts.append({"service": "check-qr-tamper", "receipt": res["receipt"]})
+            reason = res["result"].get("reason", "")
+            receipts.append({"service": "check-qr-tamper", "receipt": res["receipt"], "reason": reason})
             
     elif req.type == "message":
         res = await call_gated_service("http://localhost:8000/check-message", "POST", data={"text": req.value})
         if "error" not in res:
             if res["result"]["status"] == "Flagged":
                 verdict = "Flagged"
-            receipts.append({"service": "check-message", "receipt": res["receipt"]})
+            reason = res["result"].get("reason", "")
+            receipts.append({"service": "check-message", "receipt": res["receipt"], "reason": reason})
             
     return {
         "verdict": verdict,

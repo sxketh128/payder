@@ -6,6 +6,8 @@ import traceback
 import cv2
 import numpy as np
 import hashlib
+import os
+import requests
 
 from x402 import x402ResourceServer, VerifyResponse, SettleResponse, SupportedResponse, SupportedKind
 from x402.http.middleware.fastapi import payment_middleware
@@ -157,10 +159,16 @@ async def test_payment(request: Request):
 
 @app.post("/check-fraud-id")
 async def check_fraud_id(req: CheckFraudIdRequest, request: Request):
-    """Checks community reports. 2+ reports means flagged."""
-    count = database.count_reports(req.identifier)
-    status = "Flagged" if count >= 2 else "Safe"
-    reason = f"Reported by {count} distinct wallets."
+    """Checks hardcoded bad list, then community reports. 2+ reports means flagged."""
+    KNOWN_BAD_IDS = {"scammer@upi", "fraud@okicici", "fake@ybl", "test@upi"}
+    
+    if req.identifier in KNOWN_BAD_IDS:
+        status = "Flagged"
+        reason = "Matched against known-bad database."
+    else:
+        count = database.count_reports(req.identifier)
+        status = "Flagged" if count >= 2 else "Safe"
+        reason = f"Reported by {count} distinct wallets."
     
     # Log the check and the x402 transaction
     database.log_check(req.identifier, status, "fraud_id")
@@ -195,19 +203,56 @@ async def check_qr_tamper(request: Request, file: UploadFile = File(...)):
 
 @app.post("/check-message")
 async def check_message(req: CheckMessageRequest, request: Request):
-    """Dummy LLM logic: Flag if contains 'urgent', 'winner', 'click here'."""
-    lower_text = req.text.lower()
-    suspicious_keywords = ["urgent", "winner", "click here", "lottery", "password", "otp"]
-    
+    """LLM logic: Send text to Gemini to classify as SCAM, SPAM, or SAFE."""
+    api_key = os.getenv("GEMINI_API_KEY")
     status = "Safe"
-    for kw in suspicious_keywords:
-        if kw in lower_text:
+    reason = "No explanation provided."
+    
+    if not api_key:
+        # Fallback if no API key is provided
+        lower_text = req.text.lower()
+        suspicious = ["urgent", "winner", "click here", "lottery", "password", "otp"]
+        if any(kw in lower_text for kw in suspicious):
             status = "Flagged"
-            break
+            reason = "Matched generic suspicious keywords (No API key found)."
+    else:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+        prompt = (
+            "You are a fraud detection assistant. Classify this message as SCAM, SPAM, or SAFE. "
+            "Look for: urgency/pressure tactics, requests for OTP/PIN/personal info, suspicious links, "
+            "impersonation of banks/companies, prize/lottery claims, unusual payment requests. "
+            f"Respond with ONLY a JSON object in this format: {{\"classification\": \"SCAM\", \"reason\": \"...\"}}. Message: '{req.text}'"
+        )
+        try:
+            res = requests.post(url, json={
+                "contents": [{"parts": [{"text": prompt}]}]
+            })
+            if res.status_code == 200:
+                data = res.json()
+                text_response = data['candidates'][0]['content']['parts'][0]['text']
+                # basic parsing of JSON response from LLM
+                import json
+                try:
+                    # Strip any markdown backticks if present
+                    clean_text = text_response.replace('```json', '').replace('```', '').strip()
+                    parsed = json.loads(clean_text)
+                    cls = parsed.get("classification", "SAFE").upper()
+                    status = "Flagged" if cls in ["SCAM", "SPAM"] else "Safe"
+                    reason = parsed.get("reason", "Analyzed by AI.")
+                except Exception:
+                    # fallback if LLM didn't return perfect JSON
+                    status = "Flagged" if "SCAM" in text_response.upper() or "SPAM" in text_response.upper() else "Safe"
+                    reason = text_response
+            else:
+                status = "Flagged"
+                reason = "Error communicating with AI service."
+        except Exception as e:
+            status = "Flagged"
+            reason = f"AI Service Error: {str(e)}"
             
     # Log the check
     database.log_check(req.text[:20] + "...", status, "message_check")
     receipt = request.scope.get("x402_receipt")
     if receipt:
         database.log_x402_transaction("/check-message", receipt.transaction, "0.01")
-    return {"status": status}
+    return {"status": status, "reason": reason}
