@@ -11,7 +11,9 @@ import requests
 
 from x402 import x402ResourceServer, VerifyResponse, SettleResponse, SupportedResponse, SupportedKind
 from x402.http.middleware.fastapi import payment_middleware
-from x402.mechanisms.evm.exact import ExactEvmServerScheme
+from x402 import x402Facilitator
+from x402.mechanisms.evm.exact import ExactEvmServerScheme, ExactEvmFacilitatorScheme
+from eth_account import Account
 import database
 import agent
 
@@ -28,18 +30,14 @@ app.add_middleware(
 # ----------------- Database Initialization -----------------
 database.init_db()
 
-# ----------------- Mock x402 Facilitator -----------------
-class MockFacilitatorClient:
-    async def verify(self, payload, requirements) -> VerifyResponse:
-        return VerifyResponse(is_valid=True)
-    async def settle(self, payload, requirements) -> SettleResponse:
-        return SettleResponse(success=True, transaction="0xmocktx", network="eip155:84532")
-    def get_supported(self) -> SupportedResponse:
-        return SupportedResponse(kinds=[
-            SupportedKind(x402_version=2, network="eip155:84532", scheme="exact", asset="eth")
-        ])
+# ----------------- Genuine x402 Facilitator -----------------
+# For hackathon validation, the backend MUST verify transactions against the real blockchain.
+receiver_pk = os.getenv("RECEIVER_PRIVATE_KEY")
+receiver_wallet = Account.from_key(receiver_pk) if receiver_pk else Account.create()
 
-facilitator = MockFacilitatorClient()
+facilitator = x402Facilitator()
+facilitator.register(["eip155:84532"], ExactEvmFacilitatorScheme(receiver_wallet))
+
 server = x402ResourceServer(facilitator)
 server.register("eip155:84532", ExactEvmServerScheme())
 
