@@ -60,7 +60,7 @@ async def agent_check(req: AgentCheckRequest):
     receipts = []
     
     if req.type == "upi":
-        res = await call_gated_service("http://localhost:8000/check-fraud-id", "POST", data={"identifier": req.value})
+        res = await call_gated_service("https://payder.onrender.com/check-fraud-id", "POST", data={"identifier": req.value})
         if "error" not in res:
             if res["result"]["status"] == "Flagged":
                 verdict = "Flagged"
@@ -79,7 +79,7 @@ async def agent_check(req: AgentCheckRequest):
             return {"verdict": "Flagged", "reason": "Invalid image"}
             
         files = {"file": ("upload.png", img_bytes, "image/png")}
-        res = await call_gated_service("http://localhost:8000/check-qr-tamper", "POST", files=files)
+        res = await call_gated_service("https://payder.onrender.com/check-qr-tamper", "POST", files=files)
         if "error" not in res:
             if res["result"]["status"] == "Flagged":
                 verdict = "Flagged"
@@ -87,7 +87,7 @@ async def agent_check(req: AgentCheckRequest):
             receipts.append({"service": "check-qr-tamper", "receipt": res["receipt"], "reason": reason})
             
     elif req.type == "message":
-        res = await call_gated_service("http://localhost:8000/check-message", "POST", data={"text": req.value})
+        res = await call_gated_service("https://payder.onrender.com/check-message", "POST", data={"text": req.value})
         if "error" not in res:
             if res["result"]["status"] == "Flagged":
                 verdict = "Flagged"

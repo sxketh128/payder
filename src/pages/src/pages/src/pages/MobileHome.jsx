@@ -293,7 +293,7 @@
                                                         <script>
                                                                 async function callAgent(type, value) {
                                                                         try {
-                                                                                const response = await fetch("http://localhost:8000/agent/check", {
+                                                                                const response = await fetch("https://payder.onrender.com/agent/check", {
                                                                                         method: "POST",
                                                                                         headers: { "Content-Type": "application/json" },
                                                                                         body: JSON.stringify({ type, value })
@@ -323,7 +323,7 @@
                                                                 document.getElementById("btn-report").addEventListener("click", async () => {
                                                                         const id = prompt("Enter identifier to report:");
                                                                         if (id) {
-                                                                                await fetch("http://localhost:8000/report", {
+                                                                                await fetch("https://payder.onrender.com/report", {
                                                                                         method: "POST",
                                                                                         headers: { "Content-Type": "application/json" },
                                                                                         body: JSON.stringify({ identifier: id, reporter_wallet: "0xuser" })
