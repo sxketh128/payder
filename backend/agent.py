@@ -7,11 +7,13 @@ from x402 import x402Client
 from x402.mechanisms.evm.exact import ExactEvmScheme
 from x402.http.utils import encode_payment_signature_header, decode_payment_required_header
 import base64
+import os
 
 router = APIRouter()
 
-# The Agent has its own funded wallet (in this test, a random one)
-agent_wallet = Account.create()
+# The Agent has its own funded wallet (in this test, a random one if no env var)
+private_key = os.getenv("AGENT_PRIVATE_KEY")
+agent_wallet = Account.from_key(private_key) if private_key else Account.create()
 x402_client = x402Client()
 x402_client.register("eip155:84532", ExactEvmScheme(signer=agent_wallet))
 
