@@ -1,0 +1,300 @@
+< !DOCTYPE html >
+
+    <html class="light" lang="en"><head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>FraudGuard - Enterprise Risk Admin</title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+        <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+            theme: {
+                extend: {
+                "colors": {
+                "outline": "#777586",
+            "surface-bright": "#f7f9fd",
+            "on-primary-fixed": "#100069",
+            "on-primary": "#ffffff",
+            "secondary": "#575e70",
+            "background": "#f7f9fd",
+            "primary": "#2a14b4",
+            "surface-variant": "#e0e2e6",
+            "on-secondary": "#ffffff",
+            "tertiary": "#313b48",
+            "on-secondary-container": "#5c6274",
+            "on-tertiary-fixed": "#121c28",
+            "primary-container": "#4338ca",
+            "inverse-surface": "#2d3134",
+            "inverse-on-surface": "#eff1f5",
+            "tertiary-fixed": "#d9e3f4",
+            "on-surface-variant": "#464554",
+            "error": "#ba1a1a",
+            "primary-fixed-dim": "#c3c0ff",
+            "primary-fixed": "#e3dfff",
+            "surface-container": "#eceef2",
+            "on-primary-fixed-variant": "#372abf",
+            "outline-variant": "#c7c4d7",
+            "inverse-primary": "#c3c0ff",
+            "surface-container-high": "#e6e8ec",
+            "surface-container-low": "#f2f4f8",
+            "on-secondary-fixed-variant": "#404758",
+            "secondary-fixed": "#dce2f7",
+            "tertiary-container": "#485260",
+            "surface-container-highest": "#e0e2e6",
+            "on-error": "#ffffff",
+            "on-tertiary-container": "#bbc5d6",
+            "surface": "#f7f9fd",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed-variant": "#3e4755",
+            "surface-tint": "#5148d7",
+            "on-error-container": "#93000a",
+            "surface-dim": "#d8dade",
+            "secondary-fixed-dim": "#c0c6db",
+            "on-background": "#191c1f",
+            "on-primary-container": "#c1beff",
+            "tertiary-fixed-dim": "#bdc7d8",
+            "error-container": "#ffdad6",
+            "secondary-container": "#d9dff5",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#141b2b",
+            "on-surface": "#191c1f"
+                    },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+                    },
+            "spacing": {
+                "section-gap": "24px",
+            "table-cell-padding": "12px 16px",
+            "base": "4px",
+            "gutter": "16px",
+            "container-margin": "32px"
+                    },
+            "fontFamily": {
+                "display-lg": ["Inter", "sans-serif"],
+            "headline-md": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "headline-sm": ["Inter", "sans-serif"],
+            "mono-label": ["Inter", "monospace"]
+                    },
+            "fontSize": {
+                "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400" }],
+            "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400" }],
+            "headline-sm": ["18px", {"lineHeight": "28px", "fontWeight": "600" }],
+            "mono-label": ["13px", {"lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+        </script>
+        <style>
+        /* Flat UI specific utilities */
+            .flat-card {
+                background - color: #ffffff;
+            border: 1px solid #E5E7EB;
+        }
+
+            .flat-table th {
+                background - color: #F3F4F6;
+            font-weight: 600;
+        }
+
+            .flat-table tr {
+                border - bottom: 1px solid #E5E7EB;
+        }
+
+            .flat-table tr:hover {
+                background - color: rgba(100, 116, 139, 0.05); /* Slate Gray at 5% */
+        }
+
+            .status-pill-safe {
+                background - color: #d1fae5; /* Light Emerald */
+            color: #065f46; /* Dark Emerald */
+        }
+
+            .status-pill-flagged {
+                background - color: #fee2e2; /* Light Red */
+            color: #991b1b; /* Dark Red */
+        }
+        </style>
+    </head>
+        <body class="bg-background text-on-surface font-body-md h-screen flex overflow-hidden">
+            <!-- SideNavBar -->
+            <nav class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-lowest dark:bg-on-background border-r border-outline-variant flex flex-col gap-base py-gutter z-50">
+                <!-- Header -->
+                <div class="px-gutter mb-6 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold font-headline-md">F</div>
+                    <div>
+                        <div class="font-display-lg text-display-lg text-primary dark:text-inverse-primary font-bold tracking-tight">FraudGuard</div>
+                        <div class="font-body-sm text-body-sm text-on-surface-variant">Enterprise Risk Admin</div>
+                    </div>
+                </div>
+                <!-- Navigation Links -->
+                <div class="flex-1 flex flex-col gap-1 px-2">
+                    <!-- Active: Overview -->
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-r border-l-2 border-primary text-primary font-bold bg-secondary-container/10 transition-all duration-200" href="#">
+                        <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                        <span class="font-label-md text-label-md uppercase tracking-wider">Overview</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-r border-l-2 border-transparent text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+                        <span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+                        <span class="font-label-md text-label-md uppercase tracking-wider">Recent Checks</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-r border-l-2 border-transparent text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+                        <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                        <span class="font-label-md text-label-md uppercase tracking-wider">Reports</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-r border-l-2 border-transparent text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+                        <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                        <span class="font-label-md text-label-md uppercase tracking-wider">Settings</span>
+                    </a>
+                </div>
+                <!-- User Avatar Area -->
+                <div class="mt-auto px-gutter border-t border-outline-variant pt-4 pb-2">
+                    <div class="flex items-center gap-3 cursor-pointer hover:bg-surface-container-low p-2 rounded transition-colors duration-200">
+                        <img alt="User avatar" class="w-8 h-8 rounded object-cover" data-alt="A small, professional corporate headshot of a person wearing business attire, neutral background, sharp focus, high-quality lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOvW4-QlXz1oYE4BWxBgBwhBXRGTpOChQocN1BrUcyeCQeKGPusNLS_kdc3HgX-PBi27SAhqnd3BZBwOffW6LbbnVqMr3si3FMlEslg1GCnVWkTPyzvVmTgX7ahq_4CdoTEcOo8_ZEhNQc9VPWJyI5zKye02H--i-TUSOvupRMkj-2YHHx17QnhzYQUkhfbbBLVA7aQFzi88ee_r_51567E12ysHRl-f3S-4vg72ejzyhgzWdi755SgA" />
+                        <div class="flex-1 min-w-0">
+                            <p class="font-body-md text-body-md text-on-surface truncate font-semibold">Admin User</p>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">admin@fraudguard.sys</p>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Main Content Area -->
+            <main class="ml-[260px] flex-1 flex flex-col h-full overflow-hidden bg-background">
+                <!-- TopAppBar -->
+                <header class="flex justify-between items-center h-16 px-container-margin border-b border-outline-variant bg-surface dark:bg-background z-40 shrink-0">
+                    <div class="font-headline-md text-headline-md text-primary dark:text-inverse-primary hidden">FraudGuard</div>
+                    <div class="text-on-surface font-headline-sm text-headline-sm">Dashboard Overview</div>
+                    <div class="flex items-center gap-4">
+                        <button class="text-on-surface hover:bg-surface-container-high p-2 rounded transition-opacity cursor-pointer flex items-center justify-center">
+                            <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                        </button>
+                        <button class="text-on-surface hover:bg-surface-container-high p-2 rounded transition-opacity cursor-pointer flex items-center justify-center">
+                            <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+                        </button>
+                    </div>
+                </header>
+                <!-- Scrollable Canvas -->
+                <div class="flex-1 overflow-y-auto p-container-margin">
+                    <div class="max-w-[1440px] mx-auto flex flex-col gap-section-gap">
+                        <!-- Stat Cards Row -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Card 1 -->
+                            <div class="flat-card p-5 flex flex-col gap-2">
+                                <div class="font-body-sm text-body-sm text-secondary font-medium uppercase tracking-wider">Total Checks</div>
+                                <div id="stat-total-checks" class="font-display-lg text-display-lg text-on-surface">...</div>
+                                <div class="flex items-center gap-1 font-body-sm text-body-sm text-primary">
+                                    <span class="material-symbols-outlined text-[16px]">trending_up</span>
+                                    <span>+12% vs last month</span>
+                                </div>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="flat-card p-5 flex flex-col gap-2">
+                                <div class="font-body-sm text-body-sm text-secondary font-medium uppercase tracking-wider">Flagged Numbers</div>
+                                <div id="stat-flagged-numbers" class="font-display-lg text-display-lg text-on-surface">...</div>
+                                <div class="flex items-center gap-1 font-body-sm text-body-sm text-[#065f46]">
+                                    <span class="material-symbols-outlined text-[16px]">trending_down</span>
+                                    <span>-3% vs last month</span>
+                                </div>
+                            </div>
+                            <!-- Card 3 -->
+                            <div class="flat-card p-5 flex flex-col gap-2">
+                                <div class="font-body-sm text-body-sm text-secondary font-medium uppercase tracking-wider">Reports Received</div>
+                                <div id="stat-reports" class="font-display-lg text-display-lg text-on-surface">...</div>
+                                <div class="flex items-center gap-1 font-body-sm text-body-sm text-[#991b1b]">
+                                    <span class="material-symbols-outlined text-[16px]">trending_up</span>
+                                    <span>+5% vs last month</span>
+                                </div>
+                            </div>
+                            <!-- Card 4 -->
+                            <div class="flat-card p-5 flex flex-col gap-2">
+                                <div class="font-body-sm text-body-sm text-secondary font-medium uppercase tracking-wider">x402 Transactions</div>
+                                <div id="stat-x402-tx" class="font-display-lg text-display-lg text-on-surface">...</div>
+                                <div class="flex items-center gap-1 font-body-sm text-body-sm text-primary">
+                                    <span class="material-symbols-outlined text-[16px]">trending_up</span>
+                                    <span>+8% vs last month</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Recent Checks Data Table -->
+                        <div class="flat-card flex flex-col overflow-hidden">
+                            <div class="px-5 py-4 border-b border-outline-variant flex justify-between items-center">
+                                <h2 class="font-headline-sm text-headline-sm text-on-surface">Recent Checks</h2>
+                                <button class="font-label-md text-label-md text-primary hover:bg-surface-container-low px-3 py-1.5 rounded transition-colors uppercase tracking-wider">View All</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left flat-table border-collapse">
+                                    <thead>
+                                        <tr>
+                                            <th class="p-[12px_16px] font-label-md text-label-md text-secondary uppercase tracking-wider whitespace-nowrap">Identifier</th>
+                                            <th class="p-[12px_16px] font-label-md text-label-md text-secondary uppercase tracking-wider whitespace-nowrap">Type</th>
+                                            <th class="p-[12px_16px] font-label-md text-label-md text-secondary uppercase tracking-wider whitespace-nowrap">Verdict</th>
+                                            <th class="p-[12px_16px] font-label-md text-label-md text-secondary uppercase tracking-wider whitespace-nowrap">Timestamp</th>
+                                            <th class="p-[12px_16px] font-label-md text-label-md text-secondary uppercase tracking-wider whitespace-nowrap">Receipt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-recent-checks" class="font-body-md text-body-md text-on-surface">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <script>
+                async function fetchAdminStats() {
+                    try {
+                        const response = await fetch("http://localhost:8000/admin/stats");
+                        const data = await response.json();
+                        
+                        document.getElementById("stat-total-checks").innerText = data.recent_checks.length;
+                        document.getElementById("stat-flagged-numbers").innerText = data.flagged_count;
+                        document.getElementById("stat-reports").innerText = data.reports_count;
+                        document.getElementById("stat-x402-tx").innerText = data.x402_tx_count;
+                        
+                        const tbody = document.getElementById("table-recent-checks");
+                        tbody.innerHTML = "";
+                        
+                        data.recent_checks.forEach(check => {
+                            const isSafe = check.status === "Safe";
+                            const pillClass = isSafe ? "status-pill-safe" : "status-pill-flagged";
+                            const icon = isSafe ? "check_circle" : "warning";
+                            
+                            tbody.innerHTML += `
+                                <tr class="h-[48px] transition-colors cursor-pointer border-b border-outline-variant">
+                                    <td class="p-[12px_16px] font-mono-label text-mono-label">${check.identifier}</td>
+                                    <td class="p-[12px_16px]">${check.check_type}</td>
+                                    <td class="p-[12px_16px]">
+                                        <span class="${pillClass} px-2 py-0.5 rounded font-label-md text-label-md uppercase tracking-wider inline-flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[14px]">${icon}</span> ${check.status}
+                                        </span>
+                                    </td>
+                                    <td class="p-[12px_16px] text-on-surface-variant font-mono-label text-mono-label">${check.timestamp}</td>
+                                    <td class="p-[12px_16px]"><a class="text-primary hover:underline" href="#">View</a></td>
+                                </tr>
+                            `;
+                        });
+                    } catch (e) {
+                        console.error("Failed to fetch admin stats:", e);
+                    }
+                }
+                
+                // Fetch initially and then poll every 10s
+                fetchAdminStats();
+                setInterval(fetchAdminStats, 10000);
+            </script>
+        </body>
+    </html>

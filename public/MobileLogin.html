@@ -1,0 +1,168 @@
+< !DOCTYPE html >
+
+    <html class="light" lang="en"><head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Payder - Login</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+            theme: {
+                extend: {
+                "colors": {
+                "on-tertiary-container": "#ff9f96",
+            "surface-dim": "#dbdad9",
+            "on-surface": "#1b1c1c",
+            "surface-container": "#efeded",
+            "tertiary-container": "#98000f",
+            "surface-bright": "#fbf9f9",
+            "outline": "#767683",
+            "background": "#fbf9f9",
+            "on-secondary-container": "#217128",
+            "inverse-primary": "#bbc3ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-highest": "#e3e2e2",
+            "on-tertiary-fixed": "#410003",
+            "on-primary-fixed-variant": "#2d3c9c",
+            "tertiary-fixed": "#ffdad6",
+            "secondary": "#1b6d24",
+            "secondary-fixed-dim": "#88d982",
+            "on-primary-fixed": "#000d5f",
+            "on-error": "#ffffff",
+            "error": "#ba1a1a",
+            "on-secondary-fixed": "#002204",
+            "outline-variant": "#c6c5d4",
+            "primary": "#142588",
+            "on-secondary-fixed-variant": "#005312",
+            "tertiary": "#6d0008",
+            "on-tertiary": "#ffffff",
+            "secondary-fixed": "#a3f69c",
+            "on-error-container": "#93000a",
+            "error-container": "#ffdad6",
+            "primary-fixed": "#dfe0ff",
+            "secondary-container": "#a0f399",
+            "surface-container-high": "#e9e8e7",
+            "surface-variant": "#e3e2e2",
+            "on-surface-variant": "#454652",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#303031",
+            "primary-fixed-dim": "#bbc3ff",
+            "inverse-on-surface": "#f2f0f0",
+            "on-tertiary-fixed-variant": "#93000e",
+            "surface-tint": "#4755b6",
+            "primary-container": "#303f9f",
+            "surface-container-low": "#f5f3f3",
+            "on-primary-container": "#aab4ff",
+            "tertiary-fixed-dim": "#ffb4ac",
+            "surface": "#fbf9f9",
+            "on-background": "#1b1c1c",
+            "on-secondary": "#ffffff"
+                    },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem",
+            "2xl": "1.25rem"
+                    },
+            "spacing": {
+                "xs": "4px",
+            "margin-desktop": "48px",
+            "xl": "32px",
+            "lg": "24px",
+            "gutter": "24px",
+            "md": "16px",
+            "max-width": "1440px",
+            "sm": "8px",
+            "base": "8px",
+            "margin-mobile": "16px"
+                    },
+            "fontFamily": {
+                "body-md": ["Inter"],
+            "code-md": ["monospace"],
+            "label-md": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "title-lg": ["Inter"],
+            "display-lg": ["Inter"],
+            "body-lg": ["Inter"]
+                    },
+            "fontSize": {
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400" }],
+            "code-md": ["14px", {"lineHeight": "20px", "fontWeight": "400" }],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600" }],
+            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600" }],
+            "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600" }],
+            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+        </script>
+        <style>
+            body {
+                background - color: #F0F4F8; /* Requested soft light blue-gray background */
+        }
+        </style>
+    </head>
+        <body class="min-h-screen flex flex-col items-center justify-center p-margin-mobile md:p-margin-desktop font-body-md text-on-background">
+            <!-- Top AppBar (Suppressed normally per instructions for Login, but using it as the brand anchor as requested in prompt) -->
+            <div class="mb-xl flex flex-col items-center justify-center">
+                <img alt="Payder Logo" class="w-16 h-16 mb-sm object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtLPGxbdmiBY8oK4M7ZpjdX_8zVZIGKn5mYKtrkm1w2yV-D4cb-Yok3ZE3jZStPBkSNrYJRbWKapSJ2GzEsFzocs_oKqummbKHP_BO3ORgddkrrHg9x8lJVyqkEl4BRL1saqrFsHeGmy0ryc31yf0gTmXwTuqwGLXJb8RsZCUUkxw52oKemiHRPAAAXBYowGfhJ7oRvn3DWPrDc1enIYXRkhZxKCkL6IpxHYceDW3MijVcKPDk6G5Y8Q5_8" />
+                <h1 class="font-display-lg text-display-lg text-primary tracking-tight">Payder</h1>
+            </div>
+            <!-- Main Content Canvas -->
+            <main class="w-full max-w-[420px]">
+                <!-- Login Card -->
+                <div class="bg-surface-container-lowest rounded-2xl p-lg md:p-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-outline-variant">
+                    <div class="mb-lg text-center">
+                        <h2 class="font-headline-md text-headline-md text-on-surface mb-xs">Welcome back</h2>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Please enter your details to sign in.</p>
+                    </div>
+                    <form class="space-y-md">
+                        <!-- Phone/Email Input -->
+                        <div class="flex flex-col gap-xs">
+                            <label class="font-label-md text-label-md text-on-surface" for="email">Phone or Email</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: 'FILL' 0;">person</span>
+                                <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-sm pl-xl pr-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="email" placeholder="Enter your email or phone number" type="text" />
+                            </div>
+                        </div>
+                        <!-- Password/OTP Input -->
+                        <div class="flex flex-col gap-xs">
+                            <label class="font-label-md text-label-md text-on-surface" for="password">Password or OTP</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: 'FILL' 0;">lock</span>
+                                <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-sm pl-xl pr-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="password" placeholder="Enter your password" type="password" />
+                            </div>
+                        </div>
+                        <!-- Action Button -->
+                        <button class="w-full mt-sm bg-primary text-on-primary font-title-lg text-title-lg py-sm rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-[0.98]" type="button">
+                            Log In
+                        </button>
+                    </form>
+                    <!-- Forgot Password -->
+                    <div class="mt-lg text-center">
+                        <a class="font-body-md text-body-md text-outline hover:text-primary transition-colors" href="#">Forgot password?</a>
+                    </div>
+                    <!-- Divider -->
+                    <div class="my-lg flex items-center gap-sm">
+                        <div class="flex-1 h-px bg-outline-variant"></div>
+                        <span class="font-label-md text-label-md text-outline-variant uppercase tracking-wider">or</span>
+                        <div class="flex-1 h-px bg-outline-variant"></div>
+                    </div>
+                    <!-- Sign Up Link -->
+                    <div class="text-center">
+                        <p class="font-body-md text-body-md text-on-surface-variant">Don't have an account? <a class="text-primary font-title-lg text-title-lg hover:underline" href="#">Sign up</a></p>
+                    </div>
+                </div>
+            </main>
+        </body></html>

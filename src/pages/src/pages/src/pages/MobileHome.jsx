@@ -1,0 +1,335 @@
+< !DOCTYPE html > <html class="light" lang="en" style=""><head>
+        <meta charset="utf-8">
+                <meta content="width=device-width, initial-scale=1.0" name="viewport">
+                        <title>Payder - Home</title>
+                        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+                        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+                                <link href="https://fonts.googleapis.com" rel="preconnect">
+                                        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+                                                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+                                                        <script id="tailwind-config">
+                                                                tailwind.config = {
+                                                                        darkMode: "class",
+                                                                theme: {
+                                                                        extend: {
+                                                                        "colors": {
+                                                                        "surface-dim": "#dbdad9",
+                                                                "on-error-container": "#93000a",
+                                                                "primary-container": "#303f9f",
+                                                                "on-secondary-container": "#217128",
+                                                                "secondary-container": "#a0f399",
+                                                                "surface-container-low": "#f5f3f3",
+                                                                "primary": "#142588",
+                                                                "surface-container-high": "#e9e8e7",
+                                                                "surface-bright": "#fbf9f9",
+                                                                "surface": "#fbf9f9",
+                                                                "tertiary-container": "#98000f",
+                                                                "on-tertiary-container": "#ff9f96",
+                                                                "surface-container-lowest": "#ffffff",
+                                                                "surface-variant": "#e3e2e2",
+                                                                "secondary": "#1b6d24",
+                                                                "outline-variant": "#c6c5d4",
+                                                                "inverse-on-surface": "#f2f0f0",
+                                                                "error": "#ba1a1a",
+                                                                "tertiary": "#6d0008",
+                                                                "inverse-surface": "#303031",
+                                                                "surface-tint": "#4755b6",
+                                                                "on-tertiary-fixed-variant": "#93000e",
+                                                                "error-container": "#ffdad6",
+                                                                "outline": "#767683",
+                                                                "surface-container-highest": "#e3e2e2",
+                                                                "tertiary-fixed": "#ffdad6",
+                                                                "primary-fixed-dim": "#bbc3ff",
+                                                                "on-background": "#1b1c1c",
+                                                                "tertiary-fixed-dim": "#ffb4ac",
+                                                                "primary-fixed": "#dfe0ff",
+                                                                "on-secondary": "#ffffff",
+                                                                "on-surface": "#1b1c1c",
+                                                                "on-surface-variant": "#454652",
+                                                                "background": "#fbf9f9",
+                                                                "inverse-primary": "#bbc3ff",
+                                                                "on-tertiary": "#ffffff",
+                                                                "on-primary-fixed": "#000d5f",
+                                                                "on-secondary-fixed-variant": "#005312",
+                                                                "on-secondary-fixed": "#002204",
+                                                                "on-primary-container": "#aab4ff",
+                                                                "surface-container": "#efeded",
+                                                                "secondary-fixed-dim": "#88d982",
+                                                                "on-tertiary-fixed": "#410003",
+                                                                "on-primary": "#ffffff",
+                                                                "on-primary-fixed-variant": "#2d3c9c",
+                                                                "secondary-fixed": "#a3f69c",
+                                                                "on-error": "#ffffff"
+              },
+                                                                "borderRadius": {
+                                                                        "DEFAULT": "0.125rem",
+                                                                "lg": "0.25rem",
+                                                                "xl": "0.5rem",
+                                                                "full": "0.75rem"
+              },
+                                                                "spacing": {
+                                                                        "margin-mobile": "16px",
+                                                                "sm": "8px",
+                                                                "xl": "32px",
+                                                                "margin-desktop": "48px",
+                                                                "base": "8px",
+                                                                "gutter": "24px",
+                                                                "lg": "24px",
+                                                                "md": "16px",
+                                                                "xs": "4px",
+                                                                "max-width": "1440px"
+              },
+                                                                "fontFamily": {
+                                                                        "body-md": [
+                                                                "Inter"
+                                                                ],
+                                                                "display-lg": [
+                                                                "Inter"
+                                                                ],
+                                                                "body-lg": [
+                                                                "Inter"
+                                                                ],
+                                                                "headline-lg": [
+                                                                "Inter"
+                                                                ],
+                                                                "title-lg": [
+                                                                "Inter"
+                                                                ],
+                                                                "headline-md": [
+                                                                "Inter"
+                                                                ],
+                                                                "code-md": [
+                                                                "monospace"
+                                                                ],
+                                                                "headline-lg-mobile": [
+                                                                "Inter"
+                                                                ],
+                                                                "label-md": [
+                                                                "Inter"
+                                                                ]
+              },
+                                                                "fontSize": {
+                                                                        "body-md": [
+                                                                "14px",
+                                                                {
+                                                                        "lineHeight": "20px",
+                                                                "fontWeight": "400"
+                              }
+                                                                ],
+                                                                "display-lg": [
+                                                                "48px",
+                                                                {
+                                                                        "lineHeight": "56px",
+                                                                "letterSpacing": "-0.02em",
+                                                                "fontWeight": "700"
+                              }
+                                                                ],
+                                                                "body-lg": [
+                                                                "16px",
+                                                                {
+                                                                        "lineHeight": "24px",
+                                                                "fontWeight": "400"
+                              }
+                                                                ],
+                                                                "headline-lg": [
+                                                                "32px",
+                                                                {
+                                                                        "lineHeight": "40px",
+                                                                "letterSpacing": "-0.01em",
+                                                                "fontWeight": "600"
+                              }
+                                                                ],
+                                                                "title-lg": [
+                                                                "20px",
+                                                                {
+                                                                        "lineHeight": "28px",
+                                                                "fontWeight": "600"
+                              }
+                                                                ],
+                                                                "headline-md": [
+                                                                "24px",
+                                                                {
+                                                                        "lineHeight": "32px",
+                                                                "fontWeight": "600"
+                              }
+                                                                ],
+                                                                "code-md": [
+                                                                "14px",
+                                                                {
+                                                                        "lineHeight": "20px",
+                                                                "fontWeight": "400"
+                              }
+                                                                ],
+                                                                "headline-lg-mobile": [
+                                                                "24px",
+                                                                {
+                                                                        "lineHeight": "32px",
+                                                                "fontWeight": "600"
+                              }
+                                                                ],
+                                                                "label-md": [
+                                                                "12px",
+                                                                {
+                                                                        "lineHeight": "16px",
+                                                                "letterSpacing": "0.05em",
+                                                                "fontWeight": "500"
+                              }
+                                                                ]
+              }
+      },
+          },
+        }
+                                                        </script>
+                                                        <style>
+                                                                body {
+                                                                        background - color: #F0F4F8; /* updated background */
+                                                                color: #1b1c1c; /* on-background */
+        }
+                                                        </style>
+                                                </head>
+                                                <body class="font-body-md text-body-md antialiased h-screen overflow-hidden flex justify-center">
+                                                        <!-- Mobile Container -->
+                                                        <div class="w-full max-w-[400px] h-full bg-transparent relative flex flex-col overflow-y-auto pb-[100px]">
+                                                                <!-- TopAppBar Component -->
+                                                                <header class="w-full top-0 sticky bg-[#F0F4F8] flex justify-between items-center px-6 py-4 z-10">
+                                                                        <div class="font-headline-md text-[22px] text-[#0a1128] flex items-center gap-2 font-bold tracking-tight">
+                                                                                <img alt="Payder Logo" class="w-8 h-8 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtLPGxbdmiBY8oK4M7ZpjdX_8zVZIGKn5mYKtrkm1w2yV-D4cb-Yok3ZE3jZStPBkSNrYJRbWKapSJ2GzEsFzocs_oKqummbKHP_BO3ORgddkrrHg9x8lJVyqkEl4BRL1saqrFsHeGmy0ryc31yf0gTmXwTuqwGLXJb8RsZCUUkxw52oKemiHRPAAAXBYowGfhJ7oRvn3DWPrDc1enIYXRkhZxKCkL6IpxHYceDW3MijVcKPDk6G5Y8Q5_8">
+                                                                                        Payder
+                                                                        </div>
+                                                                        <div class="flex items-center gap-3">
+                                                                                <button class="bg-white text-gray-600 hover:bg-gray-50 transition-colors active:scale-95 w-10 h-10 rounded-full flex items-center justify-center shadow-sm">
+                                                                                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">search</span>
+                                                                                </button>
+                                                                                <button class="bg-white text-gray-600 hover:bg-gray-50 transition-colors active:scale-95 w-10 h-10 rounded-full flex items-center justify-center shadow-sm relative">
+                                                                                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">notifications</span>
+                                                                                        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-white"></span>
+                                                                                </button>
+                                                                        </div>
+                                                                </header>
+                                                                <main class="flex-1 px-6 py-2 flex flex-col gap-6">
+                                                                        <!-- Hero Area / Check a Payment CTA -->
+                                                                        <section class="w-full relative">
+                                                                                <div class="w-full bg-[#E8EAF6] rounded-[20px] p-6 shadow-sm flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[180px]">
+                                                                                        <!-- Status Badge -->
+
+                                                                                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 text-[#303F9F]">
+                                                                                                <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: &quot;FILL&quot; 1;">verified_user</span>
+                                                                                        </div>
+                                                                                        <h2 class="font-title-lg text-title-lg text-[#0a1128] mb-1">Check a Payment</h2>
+                                                                                        <p class="font-body-md text-body-md text-gray-600">Scan QR or Enter UPI/Phone</p>
+                                                                                </div>
+                                                                        </section>
+                                                                        <!-- Stats Grid -->
+                                                                        <section class="grid grid-cols-2 gap-4">                                                                        <!-- Card 1: Check UPI ID / QR -->
+                                                                                <button id="btn-check-upi" class="bg-white shadow-md rounded-[20px] p-5 flex flex-col items-start text-left aspect-square border-none active:scale-95 transition-transform">
+                                                                                        <div class="w-10 h-10 bg-[#E8EAF6] rounded-full flex items-center justify-center text-[#303F9F] mb-3">
+                                                                                                <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+                                                                                        </div>
+                                                                                        <h3 class="font-title-lg text-[16px] text-[#0a1128] font-bold leading-tight">Check UPI ID / QR</h3>
+                                                                                        <p class="font-label-md text-gray-500 mt-1">Scan or enter to verify</p>
+                                                                                </button>
+
+                                                                                <!-- Card 2: Check a Message -->
+                                                                                <button id="btn-check-message" class="bg-white shadow-md rounded-[20px] p-5 flex flex-col items-start text-left aspect-square border-none active:scale-95 transition-transform">
+                                                                                        <div class="w-10 h-10 bg-[#E8EAF6] rounded-full flex items-center justify-center text-[#303F9F] mb-3">
+                                                                                                <span class="material-symbols-outlined text-[24px]">chat_bubble_outline</span>
+                                                                                        </div>
+                                                                                        <h3 class="font-title-lg text-[16px] text-[#0a1128] font-bold leading-tight">Check a Message</h3>
+                                                                                        <p class="font-label-md text-gray-500 mt-1">Paste text to check for spam</p>
+                                                                                </button>
+
+                                                                                <!-- Card 3: Report a Number -->
+                                                                                <button id="btn-report" class="bg-white shadow-md rounded-[20px] p-5 flex flex-col items-start text-left aspect-square border-none active:scale-95 transition-transform">
+                                                                                        <div class="w-10 h-10 bg-[#E8EAF6] rounded-full flex items-center justify-center text-error mb-3">
+                                                                                                <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">flag</span>
+                                                                                        </div>
+                                                                                        <h3 class="font-title-lg text-[16px] text-[#0a1128] font-bold leading-tight">Report a Number</h3>
+                                                                                        <p class="font-label-md text-gray-500 mt-1">Report fraud or scam</p>
+                                                                                </button>
+
+                                                                                <!-- Card 4: My Checks -->
+                                                                                <button class="bg-white shadow-md rounded-[20px] p-5 flex flex-col items-start text-left aspect-square border-none active:scale-95 transition-transform">
+                                                                                        <div class="flex justify-between items-start w-full mb-2">
+                                                                                                <div class="w-10 h-10 bg-[#E8EAF6] rounded-full flex items-center justify-center text-[#303F9F]">
+                                                                                                        <span class="material-symbols-outlined text-[24px]">history</span>
+                                                                                                </div>
+                                                                                                <span class="font-headline-lg-mobile text-[#303F9F] font-bold">24</span>
+                                                                                        </div>
+                                                                                        <h3 class="font-title-lg text-[16px] text-[#0a1128] font-bold leading-tight">My Checks</h3>
+                                                                                        <p class="font-label-md text-gray-500 mt-1">Total checks you've done</p>
+                                                                                </button></section>
+                                                                </main>
+                                                                <!-- BottomNavBar Component -->
+                                                                <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] max-w-[352px] rounded-full bg-white shadow-lg z-50 flex justify-between items-center px-2 py-2 h-[64px]">
+                                                                        <div class="flex-1 flex justify-evenly items-center">
+                                                                                <!-- Analytics/Reports -->
+                                                                                <button class="flex items-center justify-center text-gray-400 hover:text-gray-600 p-2 active:scale-90 transition-transform">
+                                                                                        <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: &quot;FILL&quot; 1;">analytics</span>
+                                                                                </button>
+                                                                                <!-- Notifications -->
+                                                                                <button class="flex items-center justify-center text-gray-400 hover:text-gray-600 p-2 active:scale-90 transition-transform relative">
+                                                                                        <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: &quot;FILL&quot; 1;">notifications</span>
+                                                                                </button>
+                                                                        </div>
+                                                                        <!-- Center Placeholder for Absolute Button -->
+                                                                        <div class="w-16 h-full flex-shrink-0"></div>
+                                                                        <div class="flex-1 flex justify-evenly items-center">
+                                                                                <!-- Settings -->
+                                                                                <button class="flex items-center justify-center text-gray-400 hover:text-gray-600 p-2 active:scale-90 transition-transform">
+                                                                                        <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: &quot;FILL&quot; 1;">settings</span>
+                                                                                </button>
+                                                                                <!-- Profile -->
+                                                                                <button class="flex items-center justify-center text-gray-400 hover:text-gray-600 p-2 active:scale-90 transition-transform">
+                                                                                        <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: &quot;FILL&quot; 1;">person</span>
+                                                                                </button>
+                                                                        </div>
+                                                                        <!-- Elevated Center Scan Button -->
+                                                                        <button class="absolute left-1/2 -translate-x-1/2 -top-5 w-[60px] h-[60px] bg-[#303F9F] text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-transform border-4 border-[#F0F4F8]">
+                                                                                <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+                                                                        </button>
+                                                                </nav>
+                                                        </div>
+
+                                                        <script>
+                                                                async function callAgent(type, value) {
+                                                                        try {
+                                                                                const response = await fetch("http://localhost:8000/agent/check", {
+                                                                                        method: "POST",
+                                                                                        headers: { "Content-Type": "application/json" },
+                                                                                        body: JSON.stringify({ type, value })
+                                                                                });
+                                                                                const data = await response.json();
+                                                                                if (data.verdict === "Safe") {
+                                                                                        alert("Safe! Generating Deep Link...");
+                                                                                        window.location.href = `upi://pay?pa=${value}&pn=PayderCheck`;
+                                                                                } else {
+                                                                                        alert("FLAGGED! This identifier has been reported for fraud.");
+                                                                                }
+                                                                        } catch (e) {
+                                                                                alert("Error: " + e.message);
+                                                                        }
+                                                                }
+
+                                                                document.getElementById("btn-check-upi").addEventListener("click", () => {
+                                                                        const id = prompt("Enter UPI ID:");
+                                                                        if (id) callAgent("upi", id);
+                                                                });
+
+                                                                document.getElementById("btn-check-message").addEventListener("click", () => {
+                                                                        const text = prompt("Enter Message:");
+                                                                        if (text) callAgent("message", text);
+                                                                });
+                                                                
+                                                                document.getElementById("btn-report").addEventListener("click", async () => {
+                                                                        const id = prompt("Enter identifier to report:");
+                                                                        if (id) {
+                                                                                await fetch("http://localhost:8000/report", {
+                                                                                        method: "POST",
+                                                                                        headers: { "Content-Type": "application/json" },
+                                                                                        body: JSON.stringify({ identifier: id, reporter_wallet: "0xuser" })
+                                                                                });
+                                                                                alert("Reported successfully!");
+                                                                        }
+                                                                });
+                                                        </script>
+                                                </body></html>

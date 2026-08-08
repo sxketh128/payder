@@ -1,0 +1,208 @@
+< !DOCTYPE html >
+
+        <html class="h-full" lang="en"><head>
+                <meta charset="utf-8" />
+                <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+                <title>Login - Payder</title>
+                <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+                <link href="https://fonts.googleapis.com" rel="preconnect" />
+                <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+                <script id="tailwind-config">
+                        tailwind.config = {
+                                darkMode: "class",
+                        theme: {
+                                extend: {
+                                "colors": {
+                                "primary-fixed-dim": "#c3c0ff",
+                        "on-background": "#191c1f",
+                        "surface-variant": "#e0e2e6",
+                        "surface-container-high": "#e6e8ec",
+                        "on-tertiary-container": "#bbc5d6",
+                        "on-secondary-fixed": "#141b2b",
+                        "surface-container-highest": "#e0e2e6",
+                        "on-surface-variant": "#464554",
+                        "tertiary-fixed-dim": "#bdc7d8",
+                        "surface-container": "#eceef2",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#5c6274",
+                        "secondary-fixed": "#dce2f7",
+                        "surface-container-low": "#f2f4f8",
+                        "outline": "#777586",
+                        "surface-tint": "#5148d7",
+                        "secondary": "#575e70",
+                        "on-tertiary-fixed": "#121c28",
+                        "tertiary-container": "#485260",
+                        "surface-bright": "#f7f9fd",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#c1beff",
+                        "inverse-on-surface": "#eff1f5",
+                        "primary": "#2a14b4",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#4338ca",
+                        "tertiary": "#313b48",
+                        "on-surface": "#191c1f",
+                        "inverse-primary": "#c3c0ff",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2d3134",
+                        "on-primary-fixed": "#100069",
+                        "surface": "#f7f9fd",
+                        "secondary-container": "#d9dff5",
+                        "on-secondary-fixed-variant": "#404758",
+                        "background": "#f7f9fd",
+                        "outline-variant": "#c7c4d7",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c0c6db",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#d9e3f4",
+                        "surface-dim": "#d8dade",
+                        "on-tertiary-fixed-variant": "#3e4755",
+                        "on-primary-fixed-variant": "#372abf",
+                        "primary-fixed": "#e3dfff"
+              },
+                        "borderRadius": {
+                                "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+              },
+                        "spacing": {
+                                "container-margin": "32px",
+                        "section-gap": "24px",
+                        "table-cell-padding": "12px 16px",
+                        "base": "4px",
+                        "gutter": "16px"
+              },
+                        "fontFamily": {
+                                "body-lg": [
+                        "Inter"
+                        ],
+                        "body-sm": [
+                        "Inter"
+                        ],
+                        "headline-md": [
+                        "Inter"
+                        ],
+                        "label-md": [
+                        "Inter"
+                        ],
+                        "headline-sm": [
+                        "Inter"
+                        ],
+                        "mono-label": [
+                        "Inter"
+                        ],
+                        "display-lg": [
+                        "Inter"
+                        ],
+                        "body-md": [
+                        "Inter"
+                        ]
+              },
+                        "fontSize": {
+                                "body-lg": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                        "fontWeight": "400"
+                              }
+                        ],
+                        "body-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "18px",
+                        "fontWeight": "400"
+                              }
+                        ],
+                        "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                        "letterSpacing": "-0.01em",
+                        "fontWeight": "600"
+                              }
+                        ],
+                        "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                        "letterSpacing": "0.05em",
+                        "fontWeight": "600"
+                              }
+                        ],
+                        "headline-sm": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                        "fontWeight": "600"
+                              }
+                        ],
+                        "mono-label": [
+                        "13px",
+                        {
+                                "lineHeight": "16px",
+                        "fontWeight": "500"
+                              }
+                        ],
+                        "display-lg": [
+                        "30px",
+                        {
+                                "lineHeight": "38px",
+                        "letterSpacing": "-0.02em",
+                        "fontWeight": "600"
+                              }
+                        ],
+                        "body-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                        "fontWeight": "400"
+                              }
+                        ]
+              }
+      },
+          },
+        }
+                </script>
+        </head>
+                <body class="bg-surface h-full flex items-center justify-center font-body-md text-on-surface">
+                        <div class="w-full max-w-[400px] mx-auto px-container-margin md:px-0">
+                                <!-- Logo Header -->
+                                <div class="text-center mb-8">
+                                        <h1 class="font-headline-md text-headline-md text-primary font-bold">Payder</h1>
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Sign in to your dashboard</p>
+                                </div>
+                                <!-- Login Card -->
+                                <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-section-gap">
+                                        <form action="#" class="space-y-6" method="POST">
+                                                <!-- Email Input -->
+                                                <div>
+                                                        <label class="block font-label-md text-label-md text-on-surface mb-2" for="email">Email address</label>
+                                                        <input autocomplete="email" class="w-full h-[40px] px-3 font-body-md text-body-md bg-surface-container-lowest border border-outline-variant rounded focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-on-surface" id="email" name="email" placeholder="admin@payder.io" required="" type="email" />
+                                                </div>
+                                                <!-- Password Input -->
+                                                <div>
+                                                        <label class="block font-label-md text-label-md text-on-surface mb-2" for="password">Password</label>
+                                                        <input autocomplete="current-password" class="w-full h-[40px] px-3 font-body-md text-body-md bg-surface-container-lowest border border-outline-variant rounded focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-on-surface" id="password" name="password" placeholder="••••••••" required="" type="password" />
+                                                </div>
+                                                <!-- Submit Button -->
+                                                <div>
+                                                        <button class="w-full flex justify-center items-center h-[40px] bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-[#20108a] transition-colors duration-200" type="submit">
+                                                                Log In
+                                                        </button>
+                                                </div>
+                                        </form>
+                                        <!-- Forgot Password -->
+                                        <div class="mt-6 text-center">
+                                                <a class="font-body-sm text-body-sm text-primary hover:underline" href="#">Forgot password?</a>
+                                        </div>
+                                </div>
+                                <!-- Footer Info (Optional, but fits the enterprise feel) -->
+                                <div class="mt-8 text-center">
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant">Protected by Payder Infrastructure</p>
+                                </div>
+                        </div>
+                </body></html>
