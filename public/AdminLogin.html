@@ -177,7 +177,7 @@
                                 </div>
                                 <!-- Login Card -->
                                 <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-section-gap">
-                                        <form action="AdminDashboard.html" class="space-y-6" method="GET">
+                                        <form id="admin-login-form" class="space-y-6">
                                                 <!-- Email Input -->
                                                 <div>
                                                         <label class="block font-label-md text-label-md text-on-surface mb-2" for="email">Email address</label>
@@ -205,4 +205,28 @@
                                         <p class="font-body-sm text-body-sm text-on-surface-variant">Protected by Payder Infrastructure</p>
                                 </div>
                         </div>
+                        <script>
+                                document.getElementById("admin-login-form").addEventListener("submit", async (e) => {
+                                        e.preventDefault();
+                                        const username = document.getElementById("email").value; // Using email field as username
+                                        const password = document.getElementById("password").value;
+                                        
+                                        try {
+                                                const res = await fetch("http://localhost:8000/admin/login", {
+                                                        method: "POST",
+                                                        headers: { "Content-Type": "application/json" },
+                                                        body: JSON.stringify({ username, password })
+                                                });
+                                                const data = await res.json();
+                                                
+                                                if (res.ok) {
+                                                        window.location.href = "AdminDashboard.html";
+                                                } else {
+                                                        alert(data.message || "Invalid admin credentials");
+                                                }
+                                        } catch (err) {
+                                                alert("Network error: " + err.message);
+                                        }
+                                });
+                        </script>
                 </body></html>

@@ -5,6 +5,7 @@ from pydantic import BaseModel
 import traceback
 import cv2
 import numpy as np
+import hashlib
 
 from x402 import x402ResourceServer, VerifyResponse, SettleResponse, SupportedResponse, SupportedKind
 from x402.http.middleware.fastapi import payment_middleware
@@ -58,6 +59,14 @@ class CheckFraudIdRequest(BaseModel):
 class CheckMessageRequest(BaseModel):
     text: str
 
+class AuthRequest(BaseModel):
+    email: str
+    password: str
+
+class AdminAuthRequest(BaseModel):
+    username: str
+    password: str
+
 app.include_router(agent.router)
 
 # ----------------- Public Endpoints -----------------
@@ -71,6 +80,28 @@ async def report(req: ReportRequest):
 async def admin_stats():
     """Free endpoint for admin dashboard."""
     return database.get_admin_stats()
+
+@app.post("/auth/signup")
+async def auth_signup(req: AuthRequest):
+    pw_hash = hashlib.sha256(req.password.encode()).hexdigest()
+    success = database.create_user(req.email, pw_hash)
+    if success:
+        return {"success": True}
+    return JSONResponse(status_code=400, content={"message": "User already exists"})
+
+@app.post("/auth/login")
+async def auth_login(req: AuthRequest):
+    pw_hash = hashlib.sha256(req.password.encode()).hexdigest()
+    success = database.verify_user(req.email, pw_hash)
+    if success:
+        return {"success": True}
+    return JSONResponse(status_code=401, content={"message": "Invalid credentials"})
+
+@app.post("/admin/login")
+async def admin_login(req: AdminAuthRequest):
+    if req.username == "admin" and req.password == "admin123":
+        return {"success": True}
+    return JSONResponse(status_code=401, content={"message": "Invalid admin credentials"})
 
 # ----------------- x402 Gated Routes Configuration -----------------
 routes = {

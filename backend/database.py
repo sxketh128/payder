@@ -40,6 +40,16 @@ def init_db():
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         ''')
+        
+        # Local Users
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                email TEXT NOT NULL UNIQUE,
+                password_hash TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
         conn.commit()
 
 @contextmanager
@@ -115,6 +125,25 @@ def get_admin_stats():
             "reports_count": reports_count,
             "x402_tx_count": x402_tx_count
         }
+
+def create_user(email: str, password_hash: str) -> bool:
+    with get_db() as conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(
+                "INSERT INTO users (email, password_hash) VALUES (?, ?)", 
+                (email, password_hash)
+            )
+            conn.commit()
+            return True
+        except sqlite3.IntegrityError:
+            return False
+
+def verify_user(email: str, password_hash: str) -> bool:
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE email = ? AND password_hash = ?", (email, password_hash))
+        return cursor.fetchone() is not None
 
 if __name__ == "__main__":
     init_db()

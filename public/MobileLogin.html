@@ -147,9 +147,9 @@
                                 </div>
                             </div>
                             <!-- Action Button -->
-                            <a href="MobileHome.html" class="w-full mt-sm bg-primary text-on-primary font-title-lg text-title-lg py-sm rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-[0.98] flex items-center justify-center">
+                            <button id="login-btn" type="button" class="w-full mt-sm bg-primary text-on-primary font-title-lg text-title-lg py-sm rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-[0.98] flex items-center justify-center border-none">
                                 Log In
-                            </a>
+                            </button>
                         </form>
                         <!-- Forgot Password -->
                         <div class="mt-lg text-center">
@@ -163,9 +163,45 @@
                         </div>
                         <!-- Sign Up Link -->
                         <div class="text-center">
-                            <p class="font-body-md text-body-md text-on-surface-variant">Don't have an account? <a class="text-primary font-title-lg text-title-lg hover:underline" href="#">Sign up</a></p>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Don't have an account? <a id="signup-btn" class="text-primary font-title-lg text-title-lg hover:underline cursor-pointer">Sign up</a></p>
                         </div>
                     </div>
                 </main>
             </div>
+            
+            <script>
+                async function handleAuth(endpoint) {
+                    const email = document.getElementById("email").value;
+                    const password = document.getElementById("password").value;
+                    
+                    if (!email || !password) {
+                        alert("Please enter both email and password");
+                        return;
+                    }
+                    
+                    try {
+                        const res = await fetch(`http://localhost:8000${endpoint}`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ email, password })
+                        });
+                        const data = await res.json();
+                        
+                        if (res.ok) {
+                            if (endpoint === "/auth/signup") {
+                                alert("Signed up successfully! You can now log in.");
+                            } else {
+                                window.location.href = "MobileHome.html";
+                            }
+                        } else {
+                            alert(data.message || "Authentication failed");
+                        }
+                    } catch (e) {
+                        alert("Network error: " + e.message);
+                    }
+                }
+                
+                document.getElementById("login-btn").addEventListener("click", () => handleAuth("/auth/login"));
+                document.getElementById("signup-btn").addEventListener("click", () => handleAuth("/auth/signup"));
+            </script>
         </body></html>
