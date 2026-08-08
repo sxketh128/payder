@@ -133,6 +133,9 @@ async def check_fraud_id(req: CheckFraudIdRequest, request: Request):
     
     # Log the check and the x402 transaction
     database.log_check(req.identifier, status, "fraud_id")
+    receipt = request.scope.get("x402_receipt")
+    if receipt:
+        database.log_x402_transaction("/check-fraud-id", receipt.transaction, "0.01")
     return {"status": status, "reason": reason}
 
 @app.post("/check-qr-tamper")
@@ -154,6 +157,9 @@ async def check_qr_tamper(request: Request, file: UploadFile = File(...)):
             
     # Log the check
     database.log_check("qr_upload", status, "qr_tamper")
+    receipt = request.scope.get("x402_receipt")
+    if receipt:
+        database.log_x402_transaction("/check-qr-tamper", receipt.transaction, "0.01")
     return {"status": status}
 
 @app.post("/check-message")
@@ -168,5 +174,9 @@ async def check_message(req: CheckMessageRequest, request: Request):
             status = "Flagged"
             break
             
-    database.log_check("message_text", status, "message")
+    # Log the check
+    database.log_check(req.text[:20] + "...", status, "message_check")
+    receipt = request.scope.get("x402_receipt")
+    if receipt:
+        database.log_x402_transaction("/check-message", receipt.transaction, "0.01")
     return {"status": status}

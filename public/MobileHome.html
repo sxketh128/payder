@@ -189,7 +189,7 @@
                                                 </head>
                                                 <body class="font-body-md text-body-md antialiased h-screen overflow-hidden flex justify-center">
                                                         <!-- Mobile Container -->
-                                                        <div class="w-full max-w-[400px] h-full bg-transparent relative flex flex-col overflow-y-auto pb-[100px]">
+                                                        <div class="w-full max-w-[400px] min-h-screen bg-white relative flex flex-col overflow-y-auto pb-[100px] shadow-2xl border-x border-slate-200">
                                                                 <!-- TopAppBar Component -->
                                                                 <header class="w-full top-0 sticky bg-[#F0F4F8] flex justify-between items-center px-6 py-4 z-10">
                                                                         <div class="font-headline-md text-[22px] text-[#0a1128] flex items-center gap-2 font-bold tracking-tight">
@@ -290,6 +290,35 @@
                                                                 </nav>
                                                         </div>
 
+                                                        <!-- Modal Overlay (Hidden by default) -->
+                                                        <div id="qr-modal" class="hidden absolute inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                                                                <div class="bg-white w-full rounded-2xl p-6 shadow-xl flex flex-col gap-4">
+                                                                        <h3 class="font-headline-sm text-lg font-bold text-[#0a1128]">Check UPI ID or QR</h3>
+                                                                        <p class="font-body-sm text-gray-500">How would you like to verify the receiver?</p>
+                                                                        <button id="modal-scan-qr" class="w-full bg-[#E8EAF6] text-[#303F9F] font-semibold py-3 rounded-xl flex items-center justify-center gap-2">
+                                                                                <span class="material-symbols-outlined">qr_code_scanner</span> Scan QR Image
+                                                                        </button>
+                                                                        <button id="modal-type-upi" class="w-full bg-[#E8EAF6] text-[#303F9F] font-semibold py-3 rounded-xl flex items-center justify-center gap-2">
+                                                                                <span class="material-symbols-outlined">keyboard</span> Type UPI ID
+                                                                        </button>
+                                                                        <button id="modal-close" class="w-full text-gray-500 font-semibold py-2 mt-2">Cancel</button>
+                                                                </div>
+                                                        </div>
+
+                                                        <!-- Receipt Modal Overlay -->
+                                                        <div id="receipt-modal" class="hidden absolute inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                                                                <div class="bg-white w-full rounded-2xl p-6 shadow-xl flex flex-col gap-4">
+                                                                        <h3 id="receipt-verdict" class="font-headline-sm text-xl font-bold text-center"></h3>
+                                                                        <div class="bg-gray-100 p-3 rounded-lg overflow-x-auto">
+                                                                                <p class="font-mono-label text-xs text-gray-600 break-all" id="receipt-details"></p>
+                                                                        </div>
+                                                                        <button id="receipt-close" class="w-full bg-primary text-white font-semibold py-3 rounded-xl">Done</button>
+                                                                </div>
+                                                        </div>
+
+                                                        <!-- Hidden file input for QR scanning -->
+                                                        <input type="file" id="qr-upload" accept="image/*" capture="environment" class="hidden" />
+
                                                         <script>
                                                                 async function callAgent(type, value) {
                                                                         try {
@@ -299,20 +328,65 @@
                                                                                         body: JSON.stringify({ type, value })
                                                                                 });
                                                                                 const data = await response.json();
+                                                                                
+                                                                                const verdictEl = document.getElementById("receipt-verdict");
                                                                                 if (data.verdict === "Safe") {
-                                                                                        alert("Safe! Generating Deep Link...");
-                                                                                        window.location.href = `upi://pay?pa=${value}&pn=PayderCheck`;
+                                                                                        verdictEl.innerText = "✅ SAFE";
+                                                                                        verdictEl.className = "font-headline-sm text-xl font-bold text-center text-green-600";
                                                                                 } else {
-                                                                                        alert("FLAGGED! This identifier has been reported for fraud.");
+                                                                                        verdictEl.innerText = "⚠️ FLAGGED (FRAUD)";
+                                                                                        verdictEl.className = "font-headline-sm text-xl font-bold text-center text-red-600";
                                                                                 }
+                                                                                
+                                                                                // Show the receipt from the x402 transaction
+                                                                                let receiptText = "";
+                                                                                if (data.receipts && data.receipts.length > 0) {
+                                                                                        receiptText = "x402 Cryptographic Receipt:\n\n" + data.receipts.map(r => r.service + ": " + r.receipt).join("\n");
+                                                                                } else {
+                                                                                        receiptText = "No cryptographic receipt returned.";
+                                                                                }
+                                                                                
+                                                                                document.getElementById("receipt-details").innerText = receiptText;
+                                                                                document.getElementById("receipt-modal").classList.remove("hidden");
+                                                                                
                                                                         } catch (e) {
                                                                                 alert("Error: " + e.message);
                                                                         }
                                                                 }
 
+                                                                // Modal logic
+                                                                const qrModal = document.getElementById("qr-modal");
                                                                 document.getElementById("btn-check-upi").addEventListener("click", () => {
+                                                                        qrModal.classList.remove("hidden");
+                                                                });
+                                                                document.getElementById("modal-close").addEventListener("click", () => {
+                                                                        qrModal.classList.add("hidden");
+                                                                });
+
+                                                                document.getElementById("modal-type-upi").addEventListener("click", () => {
+                                                                        qrModal.classList.add("hidden");
                                                                         const id = prompt("Enter UPI ID:");
                                                                         if (id) callAgent("upi", id);
+                                                                });
+
+                                                                document.getElementById("modal-scan-qr").addEventListener("click", () => {
+                                                                        qrModal.classList.add("hidden");
+                                                                        document.getElementById("qr-upload").click();
+                                                                });
+
+                                                                document.getElementById("qr-upload").addEventListener("change", (e) => {
+                                                                        const file = e.target.files[0];
+                                                                        if (file) {
+                                                                                const reader = new FileReader();
+                                                                                reader.onloadend = () => {
+                                                                                        callAgent("qr", reader.result);
+                                                                                };
+                                                                                reader.readAsDataURL(file);
+                                                                        }
+                                                                });
+
+                                                                document.getElementById("receipt-close").addEventListener("click", () => {
+                                                                        document.getElementById("receipt-modal").classList.add("hidden");
                                                                 });
 
                                                                 document.getElementById("btn-check-message").addEventListener("click", () => {

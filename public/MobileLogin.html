@@ -113,56 +113,59 @@
         }
         </style>
     </head>
-        <body class="min-h-screen flex flex-col items-center justify-center p-margin-mobile md:p-margin-desktop font-body-md text-on-background">
-            <!-- Top AppBar (Suppressed normally per instructions for Login, but using it as the brand anchor as requested in prompt) -->
-            <div class="mb-xl flex flex-col items-center justify-center">
-                <img alt="Payder Logo" class="w-16 h-16 mb-sm object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtLPGxbdmiBY8oK4M7ZpjdX_8zVZIGKn5mYKtrkm1w2yV-D4cb-Yok3ZE3jZStPBkSNrYJRbWKapSJ2GzEsFzocs_oKqummbKHP_BO3ORgddkrrHg9x8lJVyqkEl4BRL1saqrFsHeGmy0ryc31yf0gTmXwTuqwGLXJb8RsZCUUkxw52oKemiHRPAAAXBYowGfhJ7oRvn3DWPrDc1enIYXRkhZxKCkL6IpxHYceDW3MijVcKPDk6G5Y8Q5_8" />
-                <h1 class="font-display-lg text-display-lg text-primary tracking-tight">Payder</h1>
-            </div>
-            <!-- Main Content Canvas -->
-            <main class="w-full max-w-[420px]">
-                <!-- Login Card -->
-                <div class="bg-surface-container-lowest rounded-2xl p-lg md:p-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-outline-variant">
-                    <div class="mb-lg text-center">
-                        <h2 class="font-headline-md text-headline-md text-on-surface mb-xs">Welcome back</h2>
-                        <p class="font-body-md text-body-md text-on-surface-variant">Please enter your details to sign in.</p>
-                    </div>
-                    <form class="space-y-md">
-                        <!-- Phone/Email Input -->
-                        <div class="flex flex-col gap-xs">
-                            <label class="font-label-md text-label-md text-on-surface" for="email">Phone or Email</label>
-                            <div class="relative">
-                                <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: 'FILL' 0;">person</span>
-                                <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-sm pl-xl pr-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="email" placeholder="Enter your email or phone number" type="text" />
-                            </div>
-                        </div>
-                        <!-- Password/OTP Input -->
-                        <div class="flex flex-col gap-xs">
-                            <label class="font-label-md text-label-md text-on-surface" for="password">Password or OTP</label>
-                            <div class="relative">
-                                <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: 'FILL' 0;">lock</span>
-                                <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-sm pl-xl pr-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="password" placeholder="Enter your password" type="password" />
-                            </div>
-                        </div>
-                        <!-- Action Button -->
-                        <a href="MobileHome.html" class="w-full mt-sm bg-primary text-on-primary font-title-lg text-title-lg py-sm rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-[0.98] flex items-center justify-center">
-                            Log In
-                        </a>
-                    </form>
-                    <!-- Forgot Password -->
-                    <div class="mt-lg text-center">
-                        <a class="font-body-md text-body-md text-outline hover:text-primary transition-colors" href="#">Forgot password?</a>
-                    </div>
-                    <!-- Divider -->
-                    <div class="my-lg flex items-center gap-sm">
-                        <div class="flex-1 h-px bg-outline-variant"></div>
-                        <span class="font-label-md text-label-md text-outline-variant uppercase tracking-wider">or</span>
-                        <div class="flex-1 h-px bg-outline-variant"></div>
-                    </div>
-                    <!-- Sign Up Link -->
-                    <div class="text-center">
-                        <p class="font-body-md text-body-md text-on-surface-variant">Don't have an account? <a class="text-primary font-title-lg text-title-lg hover:underline" href="#">Sign up</a></p>
-                    </div>
+        <body class="font-body-md text-body-md antialiased h-screen flex justify-center bg-[#F0F4F8]">
+            <!-- Mobile Container -->
+            <div class="w-full max-w-[400px] min-h-screen bg-white relative flex flex-col justify-center shadow-2xl border-x border-slate-200 px-6 overflow-y-auto pb-10">
+                <!-- Top AppBar -->
+                <div class="mb-xl flex flex-col items-center justify-center mt-10">
+                    <img alt="Payder Logo" class="w-16 h-16 mb-sm object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtLPGxbdmiBY8oK4M7ZpjdX_8zVZIGKn5mYKtrkm1w2yV-D4cb-Yok3ZE3jZStPBkSNrYJRbWKapSJ2GzEsFzocs_oKqummbKHP_BO3ORgddkrrHg9x8lJVyqkEl4BRL1saqrFsHeGmy0ryc31yf0gTmXwTuqwGLXJb8RsZCUUkxw52oKemiHRPAAAXBYowGfhJ7oRvn3DWPrDc1enIYXRkhZxKCkL6IpxHYceDW3MijVcKPDk6G5Y8Q5_8" />
+                    <h1 class="font-display-lg text-display-lg text-primary tracking-tight">Payder</h1>
                 </div>
-            </main>
+                <!-- Main Content Canvas -->
+                <main class="w-full">
+                    <!-- Login Card -->
+                    <div class="bg-surface-container-lowest rounded-2xl p-lg md:p-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-outline-variant">
+                        <div class="mb-lg text-center">
+                            <h2 class="font-headline-md text-headline-md text-on-surface mb-xs">Welcome back</h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Please enter your details to sign in.</p>
+                        </div>
+                        <form class="space-y-md">
+                            <!-- Phone/Email Input -->
+                            <div class="flex flex-col gap-xs">
+                                <label class="font-label-md text-label-md text-on-surface" for="email">Phone or Email</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: 'FILL' 0;">person</span>
+                                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-sm pl-xl pr-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="email" placeholder="Enter your email or phone number" type="text" />
+                                </div>
+                            </div>
+                            <!-- Password/OTP Input -->
+                            <div class="flex flex-col gap-xs">
+                                <label class="font-label-md text-label-md text-on-surface" for="password">Password or OTP</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: 'FILL' 0;">lock</span>
+                                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-sm pl-xl pr-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="password" placeholder="Enter your password" type="password" />
+                                </div>
+                            </div>
+                            <!-- Action Button -->
+                            <a href="MobileHome.html" class="w-full mt-sm bg-primary text-on-primary font-title-lg text-title-lg py-sm rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-[0.98] flex items-center justify-center">
+                                Log In
+                            </a>
+                        </form>
+                        <!-- Forgot Password -->
+                        <div class="mt-lg text-center">
+                            <a class="font-body-md text-body-md text-outline hover:text-primary transition-colors" href="#">Forgot password?</a>
+                        </div>
+                        <!-- Divider -->
+                        <div class="my-lg flex items-center gap-sm">
+                            <div class="flex-1 h-px bg-outline-variant"></div>
+                            <span class="font-label-md text-label-md text-outline-variant uppercase tracking-wider">or</span>
+                            <div class="flex-1 h-px bg-outline-variant"></div>
+                        </div>
+                        <!-- Sign Up Link -->
+                        <div class="text-center">
+                            <p class="font-body-md text-body-md text-on-surface-variant">Don't have an account? <a class="text-primary font-title-lg text-title-lg hover:underline" href="#">Sign up</a></p>
+                        </div>
+                    </div>
+                </main>
+            </div>
         </body></html>
