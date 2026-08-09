@@ -13,6 +13,7 @@ from x402 import x402ResourceServer, VerifyResponse, SettleResponse, SupportedRe
 from x402.http.middleware.fastapi import payment_middleware
 from x402 import x402Facilitator
 from x402.mechanisms.evm.exact import ExactEvmServerScheme, ExactEvmFacilitatorScheme
+from x402.mechanisms.evm.signers import FacilitatorWeb3Signer
 from eth_account import Account
 import database
 import agent
@@ -33,10 +34,13 @@ database.init_db()
 # ----------------- Genuine x402 Facilitator -----------------
 # For hackathon validation, the backend MUST verify transactions against the real blockchain.
 receiver_pk = os.getenv("RECEIVER_PRIVATE_KEY")
-receiver_wallet = Account.from_key(receiver_pk) if receiver_pk else Account.create()
+if not receiver_pk:
+    import secrets
+    receiver_pk = "0x" + secrets.token_hex(32)
+signer = FacilitatorWeb3Signer(receiver_pk, "https://sepolia.base.org")
 
 facilitator = x402Facilitator()
-facilitator.register(["eip155:84532"], ExactEvmFacilitatorScheme(receiver_wallet))
+facilitator.register(["eip155:84532"], ExactEvmFacilitatorScheme(signer))
 
 server = x402ResourceServer(facilitator)
 server.register("eip155:84532", ExactEvmServerScheme())
@@ -74,6 +78,13 @@ app.include_router(agent.router)
 async def report(req: ReportRequest):
     """Free endpoint to report an identifier (UPI ID, phone number, etc)."""
     success = database.add_report(req.identifier, req.reporter_wallet)
+    if success:
+        count = database.count_reports(req.identifier)
+        if count == 2:
+            # Just crossed threshold, notify users who checked it
+            users_to_notify = database.get_users_who_checked(req.identifier)
+            for user in users_to_notify:
+                database.add_notification(user, f"An identifier you checked ({req.identifier}) has been flagged as fraud by the community.")
     return {"success": success}
 
 @app.get("/admin/stats")
@@ -156,7 +167,7 @@ async def test_payment(request: Request):
     return {"status": "success", "message": "Payment verified", "receipt": receipt_data}
 
 @app.post("/check-fraud-id")
-async def check_fraud_id(req: CheckFraudIdRequest, request: Request):
+async def check_fraud_id(req: CheckFraudIdRequest, request: Request, user_email: str = None):
     """Checks hardcoded bad list, then community reports. 2+ reports means flagged."""
     KNOWN_BAD_IDS = {"scammer@upi", "fraud@okicici", "fake@ybl", "test@upi"}
     
@@ -169,14 +180,14 @@ async def check_fraud_id(req: CheckFraudIdRequest, request: Request):
         reason = f"Reported by {count} distinct wallets."
     
     # Log the check and the x402 transaction
-    database.log_check(req.identifier, status, "fraud_id")
+    database.log_check(req.identifier, status, "fraud_id", user_email)
     receipt = request.scope.get("x402_receipt")
     if receipt:
         database.log_x402_transaction("/check-fraud-id", receipt.transaction, "0.01")
     return {"status": status, "reason": reason}
 
 @app.post("/check-qr-tamper")
-async def check_qr_tamper(request: Request, file: UploadFile = File(...)):
+async def check_qr_tamper(request: Request, file: UploadFile = File(...), user_email: str = None):
     """Runs a basic OpenCV check to see if a QR is readable."""
     contents = await file.read()
     nparr = np.frombuffer(contents, np.uint8)
@@ -193,14 +204,14 @@ async def check_qr_tamper(request: Request, file: UploadFile = File(...)):
             status = "Flagged"
             
     # Log the check
-    database.log_check("qr_upload", status, "qr_tamper")
+    database.log_check("qr_upload", status, "qr_tamper", user_email)
     receipt = request.scope.get("x402_receipt")
     if receipt:
         database.log_x402_transaction("/check-qr-tamper", receipt.transaction, "0.01")
     return {"status": status}
 
 @app.post("/check-message")
-async def check_message(req: CheckMessageRequest, request: Request):
+async def check_message(req: CheckMessageRequest, request: Request, user_email: str = None):
     """LLM logic: Send text to Gemini to classify as SCAM, SPAM, or SAFE."""
     api_key = os.getenv("GEMINI_API_KEY")
     status = "Safe"
@@ -249,8 +260,41 @@ async def check_message(req: CheckMessageRequest, request: Request):
             reason = f"AI Service Error: {str(e)}"
             
     # Log the check
-    database.log_check(req.text[:20] + "...", status, "message_check")
+    database.log_check(req.text[:20] + "...", status, "message_check", user_email)
     receipt = request.scope.get("x402_receipt")
     if receipt:
         database.log_x402_transaction("/check-message", receipt.transaction, "0.01")
     return {"status": status, "reason": reason}
+
+# ----------------- User Endpoints -----------------
+@app.get("/user/checks")
+async def get_user_checks(user_email: str):
+    checks = database.get_user_checks(user_email)
+    return {"checks": checks}
+
+@app.get("/user/insights")
+async def get_user_insights(user_email: str):
+    checks = database.get_user_checks(user_email)
+    total = len(checks)
+    flagged = sum(1 for c in checks if c["status"] == "Flagged")
+    safe = total - flagged
+    return {
+        "total_checks": total,
+        "safe_count": safe,
+        "flagged_count": flagged,
+        "safe_percent": int((safe / total * 100)) if total > 0 else 0,
+        "flagged_percent": int((flagged / total * 100)) if total > 0 else 0
+    }
+
+@app.get("/user/notifications")
+async def get_user_notifications(user_email: str):
+    notifications = database.get_unread_notifications(user_email)
+    return {"notifications": notifications, "count": len(notifications)}
+
+class MarkReadRequest(BaseModel):
+    user_email: str
+
+@app.post("/user/notifications/read")
+async def mark_user_notifications_read(req: MarkReadRequest):
+    database.mark_notifications_read(req.user_email)
+    return {"success": True}

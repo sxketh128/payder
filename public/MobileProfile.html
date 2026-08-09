@@ -201,9 +201,9 @@
                                                                                 <button class="bg-white text-gray-600 hover:bg-gray-50 transition-colors active:scale-95 w-10 h-10 rounded-full flex items-center justify-center shadow-sm">
                                                                                         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">search</span>
                                                                                 </button>
-                                                                                <button class="bg-white text-gray-600 hover:bg-gray-50 transition-colors active:scale-95 w-10 h-10 rounded-full flex items-center justify-center shadow-sm relative">
+                                                                                <button id="nav-bell" class="bg-white text-gray-600 hover:bg-gray-50 transition-colors active:scale-95 w-10 h-10 rounded-full flex items-center justify-center shadow-sm relative">
                                                                                         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">notifications</span>
-                                                                                        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-white"></span>
+                                                                                        <span id="nav-bell-dot" class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-white hidden"></span>
                                                                                 </button>
                                                                         </div>
                                                                 </header>
@@ -213,8 +213,8 @@
         <div class="w-24 h-24 bg-[#E8EAF6] rounded-full flex items-center justify-center text-[#303F9F] mb-4 shadow-sm border-2 border-white">
             <span class="material-symbols-outlined text-[48px]">person</span>
         </div>
-        <h2 class="font-headline-md text-[24px] text-[#0a1128] font-bold">testuser</h2>
-        <p class="font-body-md text-gray-500">testuser@payder.com</p>
+        <h2 id="profile-name" class="font-headline-md text-[24px] text-[#0a1128] font-bold"></h2>
+        <p id="profile-email" class="font-body-md text-gray-500"></p>
     </section>
     
     <!-- Settings List -->
@@ -239,7 +239,7 @@
             <span class="material-symbols-outlined text-gray-400">chevron_right</span>
         </button>
         
-        <button class="w-full bg-white shadow-sm rounded-[16px] p-4 flex items-center justify-between border border-gray-100 active:scale-95 transition-transform mt-4" onclick="window.location.href='MobileLogin.html'">
+        <button class="w-full bg-white shadow-sm rounded-[16px] p-4 flex items-center justify-between border border-gray-100 active:scale-95 transition-transform mt-4" id="logout-btn">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-red-50 rounded-full flex items-center justify-center text-error">
                     <span class="material-symbols-outlined text-[20px]">logout</span>
@@ -450,4 +450,53 @@
                                                                         }
                                                                 });
                                                         </script>
-                                                </body></html>
+                                                
+    <script>
+        const userEmail = localStorage.getItem("userEmail");
+        if (!userEmail) window.location.href = "MobileLogin.html";
+        
+        document.getElementById("profile-email").innerText = userEmail;
+        document.getElementById("profile-name").innerText = userEmail.split('@')[0];
+        
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            localStorage.removeItem("userEmail");
+            window.location.href = "MobileLogin.html";
+        });
+    </script>
+    
+<script>
+    async function loadNotifications() {
+        const userEmail = localStorage.getItem("userEmail");
+        if (!userEmail) return;
+        
+        try {
+            const res = await fetch(`https://payder.onrender.com/user/notifications?user_email=${encodeURIComponent(userEmail)}`);
+            const data = await res.json();
+            
+            const dot = document.getElementById("nav-bell-dot");
+            if (data.count > 0) {
+                dot.classList.remove("hidden");
+                // Attach data to bell
+                document.getElementById("nav-bell").onclick = async () => {
+                    const msgs = data.notifications.map(n => n.message).join("\n\n");
+                    alert(`New Notifications:\n\n${msgs}`);
+                    
+                    await fetch("https://payder.onrender.com/user/notifications/read", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ user_email: userEmail })
+                    });
+                    dot.classList.add("hidden");
+                };
+            } else {
+                dot.classList.add("hidden");
+                document.getElementById("nav-bell").onclick = () => {
+                    alert("No new notifications.");
+                };
+            }
+        } catch(e) { console.error(e); }
+    }
+    loadNotifications();
+</script>
+</body>
+</html>
