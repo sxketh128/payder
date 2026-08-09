@@ -191,6 +191,7 @@
                             if (endpoint === "/auth/signup") {
                                 alert("Signed up successfully! You can now log in.");
                             } else {
+                                localStorage.setItem("userEmail", email);
                                 window.location.href = "MobileHome.html";
                             }
                         } else {

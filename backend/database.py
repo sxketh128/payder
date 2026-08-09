@@ -26,6 +26,18 @@ def init_db():
                 identifier TEXT NOT NULL,
                 status TEXT NOT NULL,
                 check_type TEXT NOT NULL,
+                user_email TEXT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        
+        # Notifications for users
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS notifications (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_email TEXT NOT NULL,
+                message TEXT NOT NULL,
+                is_read BOOLEAN DEFAULT 0,
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         ''')
@@ -81,13 +93,43 @@ def count_reports(identifier: str) -> int:
         cursor.execute("SELECT COUNT(*) FROM reports WHERE identifier = ?", (identifier,))
         return cursor.fetchone()[0]
 
-def log_check(identifier: str, status: str, check_type: str):
+def log_check(identifier: str, status: str, check_type: str, user_email: str = None):
     with get_db() as conn:
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO checks (identifier, status, check_type) VALUES (?, ?, ?)", 
-            (identifier, status, check_type)
+            "INSERT INTO checks (identifier, status, check_type, user_email) VALUES (?, ?, ?, ?)", 
+            (identifier, status, check_type, user_email)
         )
+        conn.commit()
+
+def get_user_checks(user_email: str):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM checks WHERE user_email = ? ORDER BY timestamp DESC", (user_email,))
+        return [dict(row) for row in cursor.fetchall()]
+
+def get_users_who_checked(identifier: str):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT DISTINCT user_email FROM checks WHERE identifier = ? AND user_email IS NOT NULL", (identifier,))
+        return [row[0] for row in cursor.fetchall()]
+
+def add_notification(user_email: str, message: str):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO notifications (user_email, message) VALUES (?, ?)", (user_email, message))
+        conn.commit()
+
+def get_unread_notifications(user_email: str):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM notifications WHERE user_email = ? AND is_read = 0 ORDER BY timestamp DESC", (user_email,))
+        return [dict(row) for row in cursor.fetchall()]
+
+def mark_notifications_read(user_email: str):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE notifications SET is_read = 1 WHERE user_email = ?", (user_email,))
         conn.commit()
 
 def log_x402_transaction(endpoint: str, receipt: str, amount: str):

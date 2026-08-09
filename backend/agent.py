@@ -21,6 +21,7 @@ class AgentCheckRequest(BaseModel):
     # Depending on what the user checked
     type: str  # "upi", "qr", "message"
     value: str # The UPI ID, the base64 image data, or the text message
+    user_email: str = None
 
 async def call_gated_service(url: str, method: str, data: dict = None, files: dict = None):
     async with httpx.AsyncClient() as client:
@@ -60,7 +61,9 @@ async def agent_check(req: AgentCheckRequest):
     receipts = []
     
     if req.type == "upi":
-        res = await call_gated_service("https://payder.onrender.com/check-fraud-id", "POST", data={"identifier": req.value})
+        url = "https://payder.onrender.com/check-fraud-id"
+        if req.user_email: url += f"?user_email={req.user_email}"
+        res = await call_gated_service(url, "POST", data={"identifier": req.value})
         if "error" not in res:
             if res["result"]["status"] == "Flagged":
                 verdict = "Flagged"
@@ -78,8 +81,10 @@ async def agent_check(req: AgentCheckRequest):
         except Exception:
             return {"verdict": "Flagged", "reason": "Invalid image"}
             
+        url = "https://payder.onrender.com/check-qr-tamper"
+        if req.user_email: url += f"?user_email={req.user_email}"
         files = {"file": ("upload.png", img_bytes, "image/png")}
-        res = await call_gated_service("https://payder.onrender.com/check-qr-tamper", "POST", files=files)
+        res = await call_gated_service(url, "POST", files=files)
         if "error" not in res:
             if res["result"]["status"] == "Flagged":
                 verdict = "Flagged"
@@ -87,7 +92,9 @@ async def agent_check(req: AgentCheckRequest):
             receipts.append({"service": "check-qr-tamper", "receipt": res["receipt"], "reason": reason})
             
     elif req.type == "message":
-        res = await call_gated_service("https://payder.onrender.com/check-message", "POST", data={"text": req.value})
+        url = "https://payder.onrender.com/check-message"
+        if req.user_email: url += f"?user_email={req.user_email}"
+        res = await call_gated_service(url, "POST", data={"text": req.value})
         if "error" not in res:
             if res["result"]["status"] == "Flagged":
                 verdict = "Flagged"
