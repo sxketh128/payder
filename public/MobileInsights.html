@@ -1,7 +1,7 @@
 <!DOCTYPE html> <html class="light" lang="en" style=""><head>
         <meta charset="utf-8">
                 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-                        <title>Payder - Home</title>
+                        <title>Payder - Insights</title>
                         <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
                         <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
                         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
@@ -207,65 +207,49 @@
                                                                                 </button>
                                                                         </div>
                                                                 </header>
-                                                                <main class="flex-1 px-6 py-2 flex flex-col gap-6">
-                                                                        <!-- Hero Area / Check a Payment CTA -->
-                                                                        <section class="w-full relative">
-                                                                                <div class="w-full bg-[#E8EAF6] rounded-[20px] p-6 shadow-sm flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[180px]">
-                                                                                        <!-- Status Badge -->
-
-                                                                                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 text-[#303F9F]">
-                                                                                                <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: &quot;FILL&quot; 1;">verified_user</span>
-                                                                                        </div>
-                                                                                        <h2 class="font-title-lg text-title-lg text-[#0a1128] mb-1">Check a Payment</h2>
-                                                                                        <p class="font-body-md text-body-md text-gray-600">Scan QR or Enter UPI/Phone</p>
-                                                                                </div>
-                                                                        </section>
-                                                                        <!-- Stats Grid -->
-                                                                        <section class="grid grid-cols-2 gap-4">                                                                        <!-- Card 1: Check UPI ID / QR -->
-                                                                                <button id="btn-check-upi" class="bg-white shadow-md rounded-[20px] p-5 flex flex-col items-start text-left aspect-square border-none active:scale-95 transition-transform">
-                                                                                        <div class="w-10 h-10 bg-[#E8EAF6] rounded-full flex items-center justify-center text-[#303F9F] mb-3">
-                                                                                                <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
-                                                                                        </div>
-                                                                                        <h3 class="font-title-lg text-[16px] text-[#0a1128] font-bold leading-tight">Check UPI ID / QR</h3>
-                                                                                        <p class="font-label-md text-gray-500 mt-1">Scan or enter to verify</p>
-                                                                                </button>
-
-                                                                                <!-- Card 2: Check a Message -->
-                                                                                <button id="btn-check-message" class="bg-white shadow-md rounded-[20px] p-5 flex flex-col items-start text-left aspect-square border-none active:scale-95 transition-transform">
-                                                                                        <div class="w-10 h-10 bg-[#E8EAF6] rounded-full flex items-center justify-center text-[#303F9F] mb-3">
-                                                                                                <span class="material-symbols-outlined text-[24px]">chat_bubble_outline</span>
-                                                                                        </div>
-                                                                                        <h3 class="font-title-lg text-[16px] text-[#0a1128] font-bold leading-tight">Check a Message</h3>
-                                                                                        <p class="font-label-md text-gray-500 mt-1">Paste text to check for spam</p>
-                                                                                </button>
-
-                                                                                <!-- Card 3: Report a Number -->
-                                                                                <button id="btn-report" class="bg-white shadow-md rounded-[20px] p-5 flex flex-col items-start text-left aspect-square border-none active:scale-95 transition-transform">
-                                                                                        <div class="w-10 h-10 bg-[#E8EAF6] rounded-full flex items-center justify-center text-error mb-3">
-                                                                                                <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">flag</span>
-                                                                                        </div>
-                                                                                        <h3 class="font-title-lg text-[16px] text-[#0a1128] font-bold leading-tight">Report a Number</h3>
-                                                                                        <p class="font-label-md text-gray-500 mt-1">Report fraud or scam</p>
-                                                                                </button>
-
-                                                                                <!-- Card 4: My Checks -->
-                                                                                <button class="bg-white shadow-md rounded-[20px] p-5 flex flex-col items-start text-left aspect-square border-none active:scale-95 transition-transform">
-                                                                                        <div class="flex justify-between items-start w-full mb-2">
-                                                                                                <div class="w-10 h-10 bg-[#E8EAF6] rounded-full flex items-center justify-center text-[#303F9F]">
-                                                                                                        <span class="material-symbols-outlined text-[24px]">history</span>
-                                                                                                </div>
-                                                                                                <span class="font-headline-lg-mobile text-[#303F9F] font-bold">24</span>
-                                                                                        </div>
-                                                                                        <h3 class="font-title-lg text-[16px] text-[#0a1128] font-bold leading-tight">My Checks</h3>
-                                                                                        <p class="font-label-md text-gray-500 mt-1">Total checks you've done</p>
-                                                                                </button></section>
-                                                                </main>
+                                                                <main class="flex-1 px-6 py-2 flex flex-col gap-4">
+    <!-- Page Header -->
+    <section class="w-full pt-2 pb-4">
+        <h2 class="font-headline-md text-[24px] text-[#0a1128] font-bold">Insights</h2>
+        <p class="font-body-md text-gray-500">Summary of your verifications</p>
+    </section>
+    
+    <!-- Stats Grid -->
+    <section class="flex flex-col gap-4 pb-8">
+        <!-- Total Checks -->
+        <div class="bg-white shadow-sm rounded-[16px] p-5 flex flex-col border border-gray-100">
+            <div class="w-10 h-10 bg-[#E8EAF6] rounded-full flex items-center justify-center text-[#303F9F] mb-3">
+                <span class="material-symbols-outlined">fact_check</span>
+            </div>
+            <span class="font-headline-md text-[28px] text-[#0a1128] font-bold">24</span>
+            <p class="font-label-md text-gray-500 mt-1">Total Checks Performed</p>
+        </div>
+        
+        <!-- Safe vs Flagged -->
+        <div class="bg-white shadow-sm rounded-[16px] p-5 flex flex-col border border-gray-100">
+            <h3 class="font-title-md text-[16px] text-[#0a1128] font-semibold mb-4">Safe vs Flagged Ratio</h3>
+            
+            <div class="w-full h-4 bg-red-100 rounded-full overflow-hidden flex mb-2">
+                <div class="h-full bg-green-500 rounded-full" style="width: 85%;"></div>
+            </div>
+            
+            <div class="flex justify-between w-full">
+                <div class="flex items-center gap-1 text-green-700 font-label-md font-bold">
+                    <span class="w-2 h-2 rounded-full bg-green-500"></span> Safe (85%)
+                </div>
+                <div class="flex items-center gap-1 text-error font-label-md font-bold">
+                    <span class="w-2 h-2 rounded-full bg-error"></span> Flagged (15%)
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
                                                                 <!-- BottomNavBar Component -->
                                                                 <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] max-w-[352px] rounded-full bg-white shadow-lg z-50 flex justify-between items-center px-2 py-2 h-[64px]">
                                                                         <div class="flex-1 flex justify-evenly items-center">
                                                                                 <!-- Home -->
-                                                                                <a href="MobileHome.html" class="flex flex-col items-center justify-center text-[#303F9F] hover:text-[#303F9F] p-2 active:scale-90 transition-transform">
-                                                                                        <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home</span>
+                                                                                <a href="MobileHome.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-gray-600 p-2 active:scale-90 transition-transform">
+                                                                                        <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: \'FILL\' 0;">home</span>
                                                                                 </a>
                                                                                 <!-- Scans -->
                                                                                 <a href="MobileScans.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-gray-600 p-2 active:scale-90 transition-transform">
@@ -276,8 +260,8 @@
                                                                         <div class="w-16 h-full flex-shrink-0"></div>
                                                                         <div class="flex-1 flex justify-evenly items-center">
                                                                                 <!-- Insights -->
-                                                                                <a href="MobileInsights.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-gray-600 p-2 active:scale-90 transition-transform">
-                                                                                        <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 0;">bar_chart</span>
+                                                                                <a href="MobileInsights.html" class="flex flex-col items-center justify-center text-[#303F9F] hover:text-[#303F9F] p-2 active:scale-90 transition-transform">
+                                                                                        <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: \'FILL\' 1;">bar_chart</span>
                                                                                 </a>
                                                                                 <!-- Profile -->
                                                                                 <a href="MobileProfile.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-gray-600 p-2 active:scale-90 transition-transform">
