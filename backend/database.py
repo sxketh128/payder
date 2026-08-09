@@ -30,6 +30,12 @@ def init_db():
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         ''')
+        # Add user_email column if it doesn't exist (migration for existing db)
+        try:
+            cursor.execute("ALTER TABLE checks ADD COLUMN user_email TEXT")
+        except sqlite3.OperationalError:
+            pass # Column already exists
+        
         
         # Notifications for users
         cursor.execute('''
