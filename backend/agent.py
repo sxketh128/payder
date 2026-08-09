@@ -69,6 +69,8 @@ async def agent_check(req: AgentCheckRequest):
                 verdict = "Flagged"
             reason = res["result"].get("reason", "")
             receipts.append({"service": "check-fraud-id", "receipt": res["receipt"], "reason": reason})
+        else:
+            return {"verdict": "Error", "reason": res["error"]}
             
     elif req.type == "qr":
         # Decode base64 to bytes
@@ -90,6 +92,8 @@ async def agent_check(req: AgentCheckRequest):
                 verdict = "Flagged"
             reason = res["result"].get("reason", "")
             receipts.append({"service": "check-qr-tamper", "receipt": res["receipt"], "reason": reason})
+        else:
+            return {"verdict": "Error", "reason": res["error"]}
             
     elif req.type == "message":
         url = "https://payder.onrender.com/check-message"
@@ -100,6 +104,8 @@ async def agent_check(req: AgentCheckRequest):
                 verdict = "Flagged"
             reason = res["result"].get("reason", "")
             receipts.append({"service": "check-message", "receipt": res["receipt"], "reason": reason})
+        else:
+            return {"verdict": "Error", "reason": res["error"]}
             
     return {
         "verdict": verdict,

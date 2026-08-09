@@ -121,7 +121,7 @@ routes = {
             "network": "eip155:84532",
             "scheme": "exact",
             "price": "0.00001",
-            "payTo": "0x0000000000000000000000000000000000000000",
+            "payTo": "0x1111111111111111111111111111111111111111",
         }
     },
     "POST /check-qr-tamper": {
@@ -129,7 +129,7 @@ routes = {
             "network": "eip155:84532",
             "scheme": "exact",
             "price": "0.01",
-            "payTo": "0x0000000000000000000000000000000000000000",
+            "payTo": "0x1111111111111111111111111111111111111111",
         }
     },
     "POST /check-message": {
@@ -137,7 +137,7 @@ routes = {
             "network": "eip155:84532",
             "scheme": "exact",
             "price": "0.00001",
-            "payTo": "0x0000000000000000000000000000000000000000",
+            "payTo": "0x1111111111111111111111111111111111111111",
         }
     },
     # The old test-payment endpoint for backwards compatibility during testing
@@ -146,7 +146,7 @@ routes = {
             "network": "eip155:84532",
             "scheme": "exact",
             "price": "0.00001",
-            "payTo": "0x0000000000000000000000000000000000000000",
+            "payTo": "0x1111111111111111111111111111111111111111",
         }
     }
 }
