@@ -38,6 +38,7 @@ if not receiver_pk:
     import secrets
     receiver_pk = "0x" + secrets.token_hex(32)
 signer = FacilitatorWeb3Signer(receiver_pk, "https://sepolia.base.org")
+RECEIVER_ADDRESS = Account.from_key(receiver_pk).address
 
 facilitator = x402Facilitator()
 facilitator.register(["eip155:84532"], ExactEvmFacilitatorScheme(signer))
@@ -123,7 +124,7 @@ routes = {
             "network": "eip155:84532",
             "scheme": "exact",
             "price": "0.00001",
-            "payTo": "0x1111111111111111111111111111111111111111",
+            "payTo": RECEIVER_ADDRESS,
         }
     },
     "POST /check-qr-tamper": {
@@ -131,7 +132,7 @@ routes = {
             "network": "eip155:84532",
             "scheme": "exact",
             "price": "0.01",
-            "payTo": "0x1111111111111111111111111111111111111111",
+            "payTo": RECEIVER_ADDRESS,
         }
     },
     "POST /check-message": {
@@ -139,7 +140,7 @@ routes = {
             "network": "eip155:84532",
             "scheme": "exact",
             "price": "0.00001",
-            "payTo": "0x1111111111111111111111111111111111111111",
+            "payTo": RECEIVER_ADDRESS,
         }
     },
     # The old test-payment endpoint for backwards compatibility during testing
@@ -148,7 +149,7 @@ routes = {
             "network": "eip155:84532",
             "scheme": "exact",
             "price": "0.00001",
-            "payTo": "0x1111111111111111111111111111111111111111",
+            "payTo": RECEIVER_ADDRESS,
         }
     }
 }
