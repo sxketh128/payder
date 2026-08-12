@@ -30,7 +30,41 @@ If a check returns a `Safe` verdict, Payder securely generates a native UPI deep
 
 ## 🏗 Architecture
 
-Payder operates on a split architecture consisting of three primary layers:
+Payder operates on a split architecture consisting of three primary layers, visualized below:
+
+```mermaid
+graph TD
+    %% Entities
+    User((User))
+    Netlify[Static Frontend<br/>Netlify / Tailwind]
+    Agent[AI Payment Agent<br/>FastAPI Orchestrator]
+    Blockchain[(Base Sepolia<br/>x402 Payments)]
+    DB[(SQLite DB<br/>Telemetry)]
+    
+    %% Microservices
+    subgraph x402_Microservices [x402 Microservices]
+        IDCheck[Fraud ID Checker]
+        QRCV[QR Tamper Engine]
+        MsgAnalyzer[Message Analyzer]
+    end
+    
+    %% Flow
+    User -->|Submits UPI/QR| Netlify
+    Netlify -->|API Request| Agent
+    Agent -->|Signs Tx| Blockchain
+    Agent -.->|Logs Stats| DB
+    
+    Agent -->|Pays $0.01 + Verifies| IDCheck
+    Agent -->|Pays $0.01 + Verifies| QRCV
+    Agent -->|Pays $0.01 + Verifies| MsgAnalyzer
+    
+    IDCheck -->|Returns Verdict| Agent
+    QRCV -->|Returns Verdict| Agent
+    MsgAnalyzer -->|Returns Verdict| Agent
+    
+    Agent -->|Aggregated Safe/Flagged| Netlify
+    Netlify -->|Deep-link to GPay/PhonePe| User
+```
 
 1. **The Static Frontend (Netlify Ready):** 
    A lightning-fast, static HTML/Tailwind interface that runs completely in the browser. It communicates directly with the Payment Agent.
