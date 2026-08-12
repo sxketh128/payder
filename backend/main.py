@@ -113,7 +113,7 @@ async def auth_login(req: AuthRequest):
 
 @app.post("/admin/login")
 async def admin_login(req: AdminAuthRequest):
-    if req.username == "admin" and req.password == "admin123":
+    if req.username in ["admin", "admin@payder.io"] and req.password == "admin123":
         return {"success": True}
     return JSONResponse(status_code=401, content={"message": "Invalid admin credentials"})
 
